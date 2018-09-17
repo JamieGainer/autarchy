@@ -2,7 +2,8 @@
 
 ## Use Case
 
-The goal of this package is to provide AutoML for structured data in a useful way for data science professionals.
+The goal of this package is to provide [AutoML](https://en.wikipedia.org/wiki/Automated_machine_learning) 
+for structured data in a useful way for data science professionals.
 We focus on structured data (regression in the current version), due to its importance for business analytics.
 
 In selecting an ML model, one often has to choose between complicated models, which can fit the data well but may overfit,
@@ -13,7 +14,7 @@ time-consuming, and time is often limited for users.
 
 To solve these two issues simultaneously we present autarchy, a tool which takes a list of ML models, generally 
 in increasing order of complexity, and finds good hyperparameters for each.  The user has the option of stopping
-individual models after a certain amount of time and/or of stopping the entire process after a certain lenght of time
+individual models after a certain amount of time and/or of stopping the entire process after a certain length of time
 to ensure that one obtains the best possible answer for the user given the available time.
 
 ## Technical Description
@@ -33,13 +34,9 @@ for hyperparameter and model selection.
 - **static** : Any images or content to include in the README or web framework if part of the pipeline
 
 ## Requisites
-- List all packages and software needed to build the environment
-- This could include cloud command line tools (i.e. gsutil), package managers (i.e. conda), etc.
-```
-# Example
 - TPOT (not sure about version yet)
 - TPOT requires sklearn, np (maybe others)
-```
+
 
 ## Build Environment
 - Include instructions of how to launch scripts in the build subfolder
