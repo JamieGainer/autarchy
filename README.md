@@ -1,5 +1,27 @@
 # autarchy: User-Friendly AutoML with a Model Hierarchy
-Description.
+
+## Use Case
+
+The goal of this package is to provide AutoML for structured data in a useful way for data science professionals.
+We focus on structured data (regression in the current version), due to its importance for business analytics.
+
+In selecting an ML model, one often has to choose between complicated models, which can fit the data well but may overfit,
+and simple models, which will not fit the data as well, but are less likely to overfit the data and which may be more 
+human-understandable.
+Also, AutoML, the choosing of the ML model, its architecture, and other hyperparameters automatically, is generally 
+time-consuming, and time is often limited for users.
+
+To solve these two issues simultaneously we present autarchy, a tool which takes a list of ML models, generally 
+in increasing order of complexity, and finds good hyperparameters for each.  The user has the option of stopping
+individual models after a certain amount of time and/or of stopping the entire process after a certain lenght of time
+to ensure that one obtains the best possible answer for the user given the available time.
+
+## Technical Description
+
+autarchy is built on [TPOT](http://epistasislab.github.io/tpot/), a package for AutoML that uses 
+[genetic programming](https://en.wikipedia.org/wiki/Genetic_programming)
+for hyperparameter and model selection.
+
 
 ## Repo Format:
 - **src** : Source code for production
@@ -86,3 +108,12 @@ Description.
 # Step 1
 # Step 2
 ```
+
+## To Do
+
+# 
+
+
+## Potential Future Directions/ Features
+
+# Take categorical data
