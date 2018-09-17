@@ -1,0 +1,8 @@
+train-test:
+	- train_size = 0.75
+	- test_size  = 0.25
+genetic:
+	- generations = 5
+	- population_size = 20
+	- verbosity = 2 # what is verbosity
+
