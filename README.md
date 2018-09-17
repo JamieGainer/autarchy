@@ -1,40 +1,22 @@
-# Insight_Project_Framework
-Framework for machine learning projects at Insight Data Science. 
+# autarchy: User-Friendly AutoML with a Model Hierarchy
+Description.
 
-## Motivation for this project format:
-- **src** : Put all source code for production within structured directory
-- **tests** : Put all source code for testing in an easy to find location
-- **configs** : Enable modification of all preset variables within single directory (consisting of one or many config files for separate tasks)
-- **data** : Include example a small amount of data in the Github repository so tests can be run to validate installation
+## Repo Format:
+- **src** : Source code for production
+- **tests** : Source code for tests
+- **configs** : Configuration files for AutoML on particular models (configs/models) as well as for overall running 
+(in configs parent directory)
+- **data** : Sample data for tests and for for further user-defined testing or demo-ing.
 - **build** : Include scripts that automate building of a standalone environment
 - **static** : Any images or content to include in the README or web framework if part of the pipeline
-
-## Setup
-Clone repository and update python path
-```
-repo_name=Insight_Project_Framework # URL of your new repository
-username=mrubash1 # Username for your personal github account
-git clone https://github.com/$username/$repo_name
-cd $repo_name
-echo "export $repo_name=${PWD}" >> ~/.bash_profile
-echo "export PYTHONPATH=$repo_name/src:${PYTHONPATH}" >> ~/.bash_profile
-source ~/.bash_profile
-```
-Create new development branch and switch onto it
-```
-branch_name=dev-readme_requisites-20180905 # Name of development branch, of the form 'dev-feature_name-date_of_creation'}}
-git checkout -b $branch_name
-git push origin $branch_name
-```
 
 ## Requisites
 - List all packages and software needed to build the environment
 - This could include cloud command line tools (i.e. gsutil), package managers (i.e. conda), etc.
 ```
 # Example
-- A
-- B
-- C
+- TPOT (not sure about version yet)
+- TPOT requires sklearn, np (maybe others)
 ```
 
 ## Build Environment
