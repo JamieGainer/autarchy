@@ -1,4 +1,4 @@
-# autarchy: User-Friendly AutoML with a Model Hierarchy
+# autarchy: User-Friendly AutoML with a Model Hierarchy (Insight Data Science Project)
 
 ## Use Case
 
