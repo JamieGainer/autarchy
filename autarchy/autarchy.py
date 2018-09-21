@@ -24,7 +24,8 @@ run_param = {
 	'generations': 5,
 	'population_size': 20,
 	'verbosity': 2,
-	'random_state_tpot': 42
+	'random_state_tpot': 42,
+	'min_random_initial_points': 5
 }
 
 # divide into X_train, X_test, y_train, y_test
@@ -54,8 +55,28 @@ except KeyError:
 
 # Start tpot.  We will replace some of the initial hyperparmeter points with benchmark points
 
-tpot = TPOTRegressor(generations=0, population_size=run_param['population_size'], 
+population_size = max(run_param['population_size'], len(benchmarks) + run_param['min_random_initial_points'])
+tpot = TPOTRegressor(generations=0, population_size=population_size, 
 					 verbosity=run_param['verbosity'], random_state = run_param['random_state_tpot'])
 
 tpot.fit(X_train, y_train)
 
+# Train models using benchmark points to get scores for these models
+
+score = lambda x: None
+
+benchmarks_with_scores = {benchmark: score(benchmark) for benchmark in benchmarks}
+
+# Merge benchmark hyperparameter points into TPOT regressor object
+
+merge_models_into_tpot = lambda x, y: None
+
+merge_models_into_tpot(tpot, benchmarks_with_scores)
+
+# Resume tpot running with new model set
+
+continue_tpot = lambda x, generations = run_param['generations']: None
+
+continue_tpot(tpot, generations = run_param['generations'])
+
+# TPOT will print out best model to stdout
