@@ -22,7 +22,6 @@ run_param = {
 	'random_state_for_split': 42
 }
 
-
 # divide into X_train, X_test, y_train, y_test
 
 X, y = data[:, :-1], data[:, -1:] 
@@ -31,4 +30,18 @@ X_train, X_test, y_train, y_test = train_test_split(X, y,
 	train_size=run_param['train_size'], test_size=run_param['test_size'],
 	random_state = run_param['random_state_for_split'])
 
-# 
+# load benchmark data
+
+benchmark_dict = {}
+
+# pick set of benchmarks based on number of features and number of samples
+
+choose_benchmark_key = lambda x: None
+
+benchmark_key = choose_benchmark_key(benchmark_dict.keys(), data.shape)
+
+try:
+	benchmarks = benchmark_dict[benchmark_key]
+except KeyError:
+	benchmarks = set([])
+
