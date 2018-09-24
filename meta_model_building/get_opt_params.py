@@ -28,9 +28,22 @@ else:
     housing = load_boston()
     data, target = housing.data, housing.target
 
+if 'seed' in sys.argv:
+    try:
+        seed_position = sys.argv.index('seed')
+        seed_value = int(sys.argv[seed_position + 1])
+    except:
+        seed_value = 42
+        print('Random seeds set to 42')
+else:
+    seed_value = 42
+    print('Random seeds set to 42')
+
+
+
 seed = {
-    'split_seed': 42,
-    'tpot_seed': 42}
+    'split_seed': seed_value,
+    'tpot_seed': seed_value}
 
 meta_generations = 2
 
