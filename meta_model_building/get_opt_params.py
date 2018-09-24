@@ -19,7 +19,7 @@ run_param = {
 }
 
 housing = load_boston()
-X_train, X_test, y_train, y_test = train_test_split(housing.data, housing.target,
+x_train, x_test, y_train, y_test = train_test_split(housing.data, housing.target,
                                                     train_size=run_param['train_size'], 
                                                     test_size=run_param['test_size'],
                                                     random_state = run_param['random_state_train'])
@@ -27,8 +27,8 @@ X_train, X_test, y_train, y_test = train_test_split(housing.data, housing.target
 tpot = TPOTRegressor(generations=run_param['generations'], population_size=run_param['population_size'],
                     verbosity=run_param['verbosity'], random_state = run_param['random_state_tpot'])
 
-tpot.fit(X_train, y_train)
-print(tpot.score(X_test, y_test))
+tpot.fit(x_train, y_train)
+print(tpot.score(x_test, y_test))
 tpot.export(run_param['export_python_code_filename'])
 
 # Prepare metadata dictionary for pickling
