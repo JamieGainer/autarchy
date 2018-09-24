@@ -29,21 +29,25 @@ seed = {
     'split_seed': 42,
     'tpot_seed': 42}
 
-run_param = {
+generations = 5
+
+split_param = {
     'train_size': 0.75,
-    'test_size': 0.25,
-    'generations': 2,
+    'test_size': 0.25}
+
+run_param = {
     'population_size': 10,
-    'verbosity': 3}
+    'verbosity': 3,
+    'generations': 3,
+    'random_state': seed['tpot_seed']}
 
 housing = load_boston()
 x_train, x_test, y_train, y_test = train_test_split(data, target,
-                                                    train_size=run_param['train_size'], 
-                                                    test_size=run_param['test_size'],
+                                                    train_size=split_param['train_size'], 
+                                                    test_size=split_param['test_size'],
                                                     random_state = seed['split_seed'])
 
-tpot = TPOTRegressor(generations=run_param['generations'], population_size=run_param['population_size'],
-                    verbosity=run_param['verbosity'], random_state = seed['tpot_seed'])
+tpot = TPOTRegressor(**run_param)
 
 tpot.fit(x_train, y_train)
 print(tpot.score(x_test, y_test))
