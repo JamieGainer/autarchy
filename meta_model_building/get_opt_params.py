@@ -32,8 +32,8 @@ seed = {
 run_param = {
     'train_size': 0.75,
     'test_size': 0.25,
-    'generations': 5,
-    'population_size': 20,
+    'generations': 2,
+    'population_size': 10,
     'verbosity': 3}
 
 housing = load_boston()
@@ -48,7 +48,7 @@ tpot = TPOTRegressor(generations=run_param['generations'], population_size=run_p
 tpot.fit(x_train, y_train)
 print(tpot.score(x_test, y_test))
 
-time = time.time()
+time = int(round(time.time()))
 output_name = input_file_name.split(".")[0] + '-' + str(time)
 output_python = output_name + '.py'
 output_pickle = output_name + '.pickle'
@@ -63,5 +63,5 @@ pickle_dict['time'] = time
 pickle_dict['output_pickle'] = output_pickle
 pickle_dict['output_python'] = output_python
 
-with open(output_pickle, 'w') as pickle_file:
+with open(output_pickle, 'wb') as pickle_file:
     pickle.dump(pickle_dict, pickle_file)
