@@ -37,7 +37,7 @@ split_param = {
 
 run_param = {
     'population_size': 10,
-    'verbosity': 3,
+    'verbosity': 1,
     'generations': 3,
     'random_state': seed['tpot_seed'],
     'warm_start': True}
