@@ -15,10 +15,13 @@ if len(sys.argv) > 1:
     else:
         try:
             file_data = np.genfromtxt(input_file_name, delimiter=',')
-            data, target = file_data[:, :-1], file_data[:, -1:] 
+            data, target = file_data[:, :-1], file_data[:, -1:]
             target = np.ravel(target)
         except:
-            print("Failed to read data file", input_file_name, "as CSV.  Aborting.")
+            print(
+                "Failed to read data file", input_file_name,
+                "as CSV.  Aborting."
+                )
             quit()
 else:
     input_file_name = 'boston'
@@ -43,10 +46,10 @@ run_param = {
     'warm_start': True}
 
 housing = load_boston()
-x_train, x_test, y_train, y_test = train_test_split(data, target,
-                                                    train_size=split_param['train_size'], 
-                                                    test_size=split_param['test_size'],
-                                                    random_state = seed['split_seed'])
+x_train, x_test, y_train, y_test = train_test_split(
+    data, target, train_size=split_param['train_size'],
+    test_size=split_param['test_size'], random_state=seed['split_seed']
+    )
 
 tpot = TPOTRegressor(**run_param)
 best_models = []
@@ -64,6 +67,9 @@ output_python = output_name + '.py'
 output_pickle = output_name + '.pickle'
 
 tpot.export(output_python)
+
+with open('evaluated.pickle', 'wb') as pickle_file:
+    pickle.dump(tpot.evaluated_individuals_, pickle_file)
 
 # Prepare metadata dictionary for pickling
 pickle_dict = tpot.evaluated_individuals_
