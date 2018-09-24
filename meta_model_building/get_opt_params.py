@@ -29,7 +29,7 @@ seed = {
     'split_seed': 42,
     'tpot_seed': 42}
 
-meta_generations = 1
+meta_generations = 3
 
 split_param = {
     'train_size': 0.75,
@@ -48,8 +48,9 @@ x_train, x_test, y_train, y_test = train_test_split(data, target,
                                                     test_size=split_param['test_size'],
                                                     random_state = seed['split_seed'])
 
+tpot = TPOTRegressor(**run_param)
+
 for _ in range(meta_generations):
-    tpot = TPOTRegressor(**run_param)
     tpot.fit(x_train, y_train)
     print(tpot.score(x_test, y_test))
 
