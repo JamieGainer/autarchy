@@ -39,7 +39,8 @@ run_param = {
     'population_size': 10,
     'verbosity': 3,
     'generations': 3,
-    'random_state': seed['tpot_seed']}
+    'random_state': seed['tpot_seed'],
+    'warm_start': True}
 
 housing = load_boston()
 x_train, x_test, y_train, y_test = train_test_split(data, target,
