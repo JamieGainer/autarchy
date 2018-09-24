@@ -29,7 +29,7 @@ seed = {
     'split_seed': 42,
     'tpot_seed': 42}
 
-meta_generations = 3
+meta_generations = 2
 
 split_param = {
     'train_size': 0.75,
@@ -38,7 +38,7 @@ split_param = {
 run_param = {
     'population_size': 10,
     'verbosity': 1,
-    'generations': 3,
+    'generations': 1,
     'random_state': seed['tpot_seed'],
     'warm_start': True}
 
@@ -49,10 +49,14 @@ x_train, x_test, y_train, y_test = train_test_split(data, target,
                                                     random_state = seed['split_seed'])
 
 tpot = TPOTRegressor(**run_param)
+best_models = []
+best_scores = []
 
 for _ in range(meta_generations):
     tpot.fit(x_train, y_train)
-    print(tpot.score(x_test, y_test))
+    score = tpot.score(x_test, y_test)
+    best_scores.append(score)
+
 
 time = int(round(time.time()))
 output_name = input_file_name.split(".")[0] + '-' + str(time)
