@@ -3,7 +3,10 @@ import pickle
 from tpot import TPOTRegressor
 from sklearn.datasets import load_boston
 from sklearn.model_selection import train_test_split
+import sys
 import time
+
+
 
 run_param = {
     'random_state_train': 42,
@@ -14,9 +17,8 @@ run_param = {
     'test_size': 0.25,
     'generations': 5,
     'population_size': 20,
-    'verbosity': 2,
-    'time': time.time()
-}
+    'verbosity': 2
+    }
 
 housing = load_boston()
 x_train, x_test, y_train, y_test = train_test_split(housing.data, housing.target,
@@ -34,6 +36,7 @@ tpot.export(run_param['export_python_code_filename'])
 # Prepare metadata dictionary for pickling
 pickle_dict = tpot.evaluated_individuals_
 pickle_dict.update(run_param)
+pickle_dict['time'] = time.time()
 
 
 with open(run_param['pickle_file_name'], 'w') as pickle_file:
