@@ -17,7 +17,7 @@ run_param = {
     'test_size': 0.25,
     'generations': 5,
     'population_size': 20,
-    'verbosity': 2
+    'verbosity': 3
     }
 
 housing = load_boston()
