@@ -80,33 +80,36 @@ epochs = 10
 if '-epochs' in sys.argv:
     epoch_position = sys.argv.index('-epochs')
     try:
-        epochs = int(sys.argv[epoch_position])
+        epochs = int(sys.argv[epoch_position + 1])
     except:
         print(
             'Epochs cannot be set to specified value. ',
             'Aborting.'
             )
+        quit()
 
 generations_per_epoch = 5
 if '-generations_per_epoch' in sys.argv:
     gen_position = sys.argv.index('-generations_per_epoch')
     try:
-        generations_per_epoch = int(sys.argv[gen_position])
+        generations_per_epoch = int(sys.argv[gen_position + 1])
     except:
         print(
             'Generations per epoch cannot be set to specified value. ',
             'Aborting.')
+        quit()
 
 population = 50
 if '-population' in sys.argv:
     pop_position = sys.argv.index('-population')
     try:
-        population = int(sys.argv[pop_position])
+        population = int(sys.argv[pop_position + 1])
     except:
         print(
             'Population cannot be set to the specified value. ',
             'Aborting.'
             )
+        quit()
 
 print('Parameters:')
 print('Input file name:', input_file_name)
@@ -131,8 +134,8 @@ split_param = {
     }
 
 run_param = {
-    'population_size': 10,
-    'verbosity': 0,
+    'population_size': population,
+    'verbosity': 1,
     'generations': generations_per_epoch,
     'random_state': seed['tpot_seed'],
     'config_dict': config_dict,
@@ -155,22 +158,26 @@ output_python = output_name + '.py'
 output_pickle = output_name + '.pickle'
 
 for i_gen in range(epochs):
+    print(i_gen)
     tpot.fit(x_train, y_train)
     score = tpot.score(x_test, y_test)
     best_scores.append(score)
     best_pipelines.append(tpot._optimized_pipeline)
     tpot.export(output_name + '-' + str(i_gen) + '.py')
+print(best_scores)
+#print(best_pipelines)
 
 finish_time = time.time()
 
 
 # Prepare metadata dictionary for pickling
+pickle_dict = {}
 pickle_dict['evaluated_individuals'] = tpot.evaluated_individuals_
 pickle_dict.update(run_param)
 pickle_dict.update(split_param)
 pickle_dict.update(seed)
 pickle_dict['best_scores'] = best_scores
-pickle_dict['best_pipelines'] = best_pipelines
+#pickle_dict['best_pipelines'] = best_pipelines
 
 pickle_dict['model_space'] = model_space
 pickle_dict['preprocessor'] = preprocessor
@@ -180,7 +187,6 @@ pickle_dict['population'] = population
 pickle_dict['seed_value'] = seed_value
 pickle_dict['conifg_dict'] = config_dict
 
-pickle_dict['meta_generations'] = meta_generations
 pickle_dict['duration'] = finish_time - start_time
 pickle_dict['output_pickle'] = output_pickle
 
