@@ -111,6 +111,18 @@ if '-population' in sys.argv:
             )
         quit()
 
+verbosity = 0
+if '-verbosity' in sys.argv:
+    verb_position = sys.argv.index('-verbosity')
+    try:
+        verbosity = int(sys.argv[verb_position + 1])
+        assert verbosity in [0,1,2,3]
+    except:
+        print(
+              'Verbosity cannot be set to the specified value. ',
+              'Aborting.'
+             )
+             
 print('Parameters:')
 print('Input file name:', input_file_name)
 print('Hyperparameter space:', model_space)
@@ -135,7 +147,7 @@ split_param = {
 
 run_param = {
     'population_size': population,
-    'verbosity': 1,
+    'verbosity': verbosity,
     'generations': generations_per_epoch,
     'random_state': seed['tpot_seed'],
     'config_dict': config_dict,
