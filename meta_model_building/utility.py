@@ -61,3 +61,10 @@ def model_config_dict(model_space):
                 if model != model_abbreviation_dict[model_space]:
                     return_dict.pop(model)
     return return_dict
+
+
+def restrict_preprocessor(preprocessor, config_dict):
+    assert preprocessor in implemented_preprocessor_list
+    for prep in light_preprocessor_list:
+        if prep != preprocessor_abbreviation_dict[preprocessor]:
+            config_dict.pop(prep)
