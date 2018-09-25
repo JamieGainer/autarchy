@@ -21,7 +21,7 @@ model_abbreviation_dict = {
     'SVR': 'sklearn.svm.LinearSVR'
 }
 
-#preprocessor lists and dicts
+# preprocessor lists and dicts
 implemented_preprocessor_list = ['max_abs_scaler', 'min_max_scaler', 'PCA']
 light_preprocessor_list = [
     'sklearn.preprocessing.Binarizer',
@@ -41,6 +41,7 @@ preprocessor_abbreviation_dict = {
     'min_max_scaler': 'sklearn.preprocessing.MinMaxScaler',
     'PCA': 'sklearn.decomposition.PCA'
 }
+
 
 def model_config_dict(model_space):
     """Given string model_space in implemented_model_list, return the
