@@ -23,3 +23,25 @@ model_abbreviation_dict = {
 
 #preprocessor lists and dicts (to come)
 
+
+
+
+def model_config_dict(model_space):
+    """Given string model_space in implemented_model_list, return the
+    corresponding dictionary in a format appropriate to the TPOT class"""
+    assert model_space in implemented_model_list
+    if model_space == 'regression':
+        return_dict = copy.deepcopy(regressor_config_dict)
+    else:
+        return_dict = copy.deepcopy(regressor_config_dict_light)
+        if model_space == 'regression_light':
+            pass
+        elif model_space == 'linear':
+            for model in light_model_list:
+                if model not in linear_model_list:
+                    return_dict.pop(model)
+        else:
+            for model in light_model_list:
+                if model != model_abbreviation_dict[model_space]:
+                    return_dict.pop(model)
+    return return_dict
