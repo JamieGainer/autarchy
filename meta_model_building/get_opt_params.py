@@ -6,8 +6,10 @@ from sklearn.datasets import load_boston
 from sklearn.model_selection import train_test_split
 import sys
 import time
+import utility
 
-model_list = ['regression', 'regression_light', 'knn', 'random_forest']
+model_list = utility.implemented_model_list
+preprocessor_list = utility.implemented_preprocessor_list
 
 if len(sys.argv) > 1:
     input_file_name = sys.argv[1]
@@ -55,13 +57,33 @@ if '-model_space' in sys.argv:
 else:
     model_space = 'regression'
 print('Model space set to', model_space)
+config_dict = utility.model_config_dict(model_space)
+
+if '-preprocessor' in sys.argv:
+    prep_position = sys.argv.index('-preprocessor')
+    try:
+        preprocessor = sys.argv[prep_position + 1]
+        if preprocessor not in preprocessor_list:
+            print(
+                'Cannot choose preprocessing method', preprocessor, 
+                '\b.  Aborting.'
+                )
+            quit()
+    except:
+        print('Could not choose preprocessing method.  Aborting')
+        quit()
+
+
+# Set generations
+meta_generations = 2
+
+# Set population
+
 
 seed = {
     'split_seed': seed_value,
     'tpot_seed': seed_value
     }
-
-meta_generations = 2
 
 split_param = {
     'train_size': 0.75,
@@ -83,32 +105,31 @@ x_train, x_test, y_train, y_test = train_test_split(
     )
 
 tpot = TPOTRegressor(**run_param)
-best_models = []
 best_scores = []
 
-for _ in range(meta_generations):
-    tpot.fit(x_train, y_train)
-    score = tpot.score(x_test, y_test)
-    best_scores.append(score)
-
-
-time = int(round(time.time()))
-output_name = input_file_name.split(".")[0] + '-' + str(time)
+start_time = time.time()
+time_int = int(round(start_time))
+output_name = input_file_name.split(".")[0] + '-' + str(time_int)
 output_python = output_name + '.py'
 output_pickle = output_name + '.pickle'
 
-tpot.export(output_python)
+for i_gen in range(meta_generations):
+    tpot.fit(x_train, y_train)
+    score = tpot.score(x_test, y_test)
+    best_scores.append(score)
+    tpot.export(output_name + '-' + str(i_gen) + '.py')
 
-with open('evaluated.pickle', 'wb') as pickle_file:
-    pickle.dump(tpot.evaluated_individuals_, pickle_file)
+finish_time = time.time()
+
 
 # Prepare metadata dictionary for pickling
 pickle_dict = tpot.evaluated_individuals_
 pickle_dict.update(run_param)
+pickle_dict.update(split_param)
 pickle_dict.update(seed)
-pickle_dict['time'] = time
+pickle_dict['meta_generations'] = meta_generations
+pickle_dict['duration'] = finish_time - start_time
 pickle_dict['output_pickle'] = output_pickle
-pickle_dict['output_python'] = output_python
 
 with open(output_pickle, 'wb') as pickle_file:
     pickle.dump(pickle_dict, pickle_file)
