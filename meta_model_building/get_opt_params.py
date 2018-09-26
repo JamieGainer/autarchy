@@ -66,7 +66,7 @@ if '-preprocessor' in sys.argv:
         preprocessor = sys.argv[prep_position + 1]
         if preprocessor not in preprocessor_list:
             print(
-                'Cannot choose preprocessing method', preprocessor, 
+                'Cannot choose preprocessing method', preprocessor,
                 '\b.  Aborting.'
                 )
             quit()
@@ -116,7 +116,7 @@ if '-verbosity' in sys.argv:
     verb_position = sys.argv.index('-verbosity')
     try:
         verbosity = int(sys.argv[verb_position + 1])
-        assert verbosity in [0,1,2,3]
+        assert verbosity in [0, 1, 2, 3]
     except:
         print(
               'Verbosity cannot be set to the specified value. ',
@@ -160,7 +160,7 @@ x_train, x_test, y_train, y_test = train_test_split(
     )
 
 tpot = TPOTRegressor(**run_param)
-train_scores
+train_scores = []
 test_scores = []
 
 start_time = time.time()
