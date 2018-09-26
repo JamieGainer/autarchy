@@ -130,7 +130,6 @@ print('Generations per epoch:', generations_per_epoch)
 print('Population:', population)
 print('Seed value:', seed_value)
 print('Verbosity:', verbosity)
-print(config_dict.keys())
 print()
 
 seed = {
@@ -160,6 +159,7 @@ x_train, x_test, y_train, y_test = train_test_split(
 tpot = TPOTRegressor(**run_param)
 train_scores = []
 test_scores = []
+best_pipelines = []
 
 start_time = time.time()
 time_int = int(round(start_time))
