@@ -11,26 +11,24 @@ import utility
 model_list = utility.implemented_model_list
 preprocessor_list = utility.implemented_preprocessor_list
 
-if len(sys.argv) > 1:
-    input_file_name = sys.argv[1]
-    if input_file_name == 'boston':
-        housing = load_boston()
-        data, target = housing.data, housing.target
-    else:
-        try:
-            file_data = np.genfromtxt(input_file_name, delimiter=',')
-        except:
-            print(
-                "Failed to read data file", input_file_name,
-                "as CSV.  Aborting."
-                )
-            quit()
-        data, target = file_data[:, :-1], file_data[:, -1:]
-        target = np.ravel(target)
-else:
+if len(sys.argv) == 1 or sys.argv[1] == 'boston':
     input_file_name = 'boston'
+else:
+    input_file_name = sys.argv[1]
+if input_file_name == 'boston':
     housing = load_boston()
     data, target = housing.data, housing.target
+else:
+    try:
+        file_data = np.genfromtxt(input_file_name, delimiter=',')
+    except:
+        print(
+            "Failed to read data file", input_file_name,
+            "as CSV.  Aborting."
+            )
+        quit()
+    data, target = file_data[:, :-1], file_data[:, -1:]
+    target = np.ravel(target)
 
 if '-seed' in sys.argv:
     seed_position = sys.argv.index('-seed')
