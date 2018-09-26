@@ -134,7 +134,6 @@ print('Seed value:', seed_value)
 print('Verbosity:', verbosity)
 print(config_dict.keys())
 print()
-assert 1 == 2
 
 seed = {
     'split_seed': seed_value,
