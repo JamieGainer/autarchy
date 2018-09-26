@@ -134,7 +134,7 @@ print('Seed value:', seed_value)
 print('Verbosity:', verbosity)
 print(config_dict.keys())
 print()
-
+assert 1 == 2
 
 seed = {
     'split_seed': seed_value,
@@ -161,8 +161,8 @@ x_train, x_test, y_train, y_test = train_test_split(
     )
 
 tpot = TPOTRegressor(**run_param)
-best_scores = []
-best_pipelines = []
+train_scores
+test_scores = []
 
 start_time = time.time()
 time_int = int(round(start_time))
@@ -173,12 +173,13 @@ output_pickle = output_name + '.pickle'
 for i_gen in range(epochs):
     print(i_gen)
     tpot.fit(x_train, y_train)
-    score = tpot.score(x_test, y_test)
-    best_scores.append(score)
+    train_scores.append(tpot.score(x_train, y_train))
+    test_scores.append(tpot.score(x_test, y_test))
     best_pipelines.append(tpot._optimized_pipeline)
     tpot.export(output_name + '-' + str(i_gen) + '.py')
-print(best_scores)
-#print(best_pipelines)
+print('train:', train_scores)
+print('test:', test_scores)
+
 
 finish_time = time.time()
 
@@ -189,8 +190,8 @@ pickle_dict['evaluated_individuals'] = tpot.evaluated_individuals_
 pickle_dict.update(run_param)
 pickle_dict.update(split_param)
 pickle_dict.update(seed)
-pickle_dict['best_scores'] = best_scores
-#pickle_dict['best_pipelines'] = best_pipelines
+pickle_dict['test_scores'] = test_scores
+pickle_dict['train_scores'] = train_scores
 
 pickle_dict['model_space'] = model_space
 pickle_dict['preprocessor'] = preprocessor
