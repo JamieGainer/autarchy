@@ -19,14 +19,14 @@ if len(sys.argv) > 1:
     else:
         try:
             file_data = np.genfromtxt(input_file_name, delimiter=',')
-            data, target = file_data[:, :-1], file_data[:, -1:]
-            target = np.ravel(target)
         except:
             print(
                 "Failed to read data file", input_file_name,
                 "as CSV.  Aborting."
                 )
             quit()
+        data, target = file_data[:, :-1], file_data[:, -1:]
+        target = np.ravel(target)
 else:
     input_file_name = 'boston'
     housing = load_boston()
