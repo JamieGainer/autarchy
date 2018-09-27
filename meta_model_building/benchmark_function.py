@@ -24,14 +24,34 @@ class benchmark_function(object):
             self.n_features = n_features
             self.n_samples = n_samples
 
+            self.random_mag = random_mag
+            self.sin_kx_freq = sin_kx_freq
+
             self.linear_dict = {
                                 'mag': linear_mag,
                                 'dim': linear_dim,
-                                'sign': linear_sign
+                                'sign': linear_sig
                                }
 
-            self.random_mag = random_mag
-            self.linear_mag = linear_mag
+            self.sin_kx_dict = {
+                                'mag': sin_kx_mag,
+                                'dim': sin_kx_dim,
+                                'sign': sin_kx_sig
+                               }
+
+            self.kx_2_dict = {
+                                'mag': kx_2_mag,
+                                'dim': kx_2_dim,
+                                'sign': kx_2_sig
+                               }
+
+            self.kx_3_dict = {
+                                'mag': kx_3_mag,
+                                'dim': kx_3_dim,
+                                'sign': kx_3_sig
+                               }
+
+
             self.sin_kx_mag = sin_kx_mag
             self.kx_2_mag = kx_2_mag
             self.kx_3_mag = kx_3_mag
@@ -46,7 +66,7 @@ class benchmark_function(object):
             self.kx_2_sign = kx_2_sign
             self.kx_3_sign = kx_3_sign
 
-            self.sin_kx_freq = sin_kx_freq
+
 
             self.linear_unit_vector = unit_vector(lin_dim, n_features)
             self.structure_unit_vector = unit_vector(structure_dim, n_features)
