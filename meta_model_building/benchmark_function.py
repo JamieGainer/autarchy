@@ -11,6 +11,19 @@ def unit_vector(dim, embedded_dim):
     zeros = np.zeros(embedded_dim - dim)
     return np.hstack((vec, zeros))
 
+def linear(k, x):
+    return x.dot(k)
+
+def sin_kx_phase(k, x, freq, phase):
+    return np.sin(freq * linear(k,x) + phase)
+
+def kx_2(k, x):
+    return linear(k, x)**2
+
+def kx_3(k, x):
+    return linear(k, x)**3
+
+
 class benchmark_function(object):
 
         def __init__(
@@ -18,7 +31,7 @@ class benchmark_function(object):
                 random_mag, linear_mag, sin_kx_mag, kx_2_mag, kx_3_mag
                 lin_dim, sin_kx_dim, kx_2_dim, kx_3_dim,
                 lin_sign, sin_kx_sign, kx_2_sign, kx_3_sign,
-                sin_kx_freq 
+                sin_kx_freq, sin_kx_phase
                 )
 
             self.n_features = n_features
@@ -26,6 +39,7 @@ class benchmark_function(object):
 
             self.random_mag = random_mag
             self.sin_kx_freq = sin_kx_freq
+            self.sin_kx_phase = sin_kx_phase
 
             self.linear_dict = {
                                 'name': 'linear',
@@ -61,8 +75,7 @@ class benchmark_function(object):
                                )
 
             self.unit_vector_dict = {
-                                    d['name']: unit_vector(d['dim'], self.n_features)
+                                    d['name']: self.unit_vector(d['dim'], self.n_features)
                                     for d in self.param_dicts
                                     }
 
-                                    
