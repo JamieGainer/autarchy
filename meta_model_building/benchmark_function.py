@@ -4,7 +4,8 @@
 import numpy as np
 
 def unit_vector(dim, embedded_dim):
-    assert embedded_dim >= dim
+    if dim > embedded_dim:
+        dim = embedded_dim
     vec = np.random.randn(dim)
     vec /= np.linalg.norm(vec)
     zeros = np.zeros(embedded_dim - dim)
@@ -22,6 +23,12 @@ class benchmark_function(object):
 
             self.n_features = n_features
             self.n_samples = n_samples
+
+            self.linear_dict = {
+                                'mag': linear_mag,
+                                'dim': linear_dim,
+                                'sign': linear_sign
+                               }
 
             self.random_mag = random_mag
             self.linear_mag = linear_mag
