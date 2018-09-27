@@ -19,7 +19,15 @@ model_abbreviation_dict = {
     'knn': 'sklearn.neighbors.KNeighborsRegressor',
     'decision_tree': 'sklearn.tree.DecisionTreeRegressor',
     'SVR': 'sklearn.svm.LinearSVR'
-}
+    }
+light_model_list = [
+    'sklearn.linear_model.ElasticNetCV',
+    'sklearn.tree.DecisionTreeRegressor',
+    'sklearn.neighbors.KNeighborsRegressor',
+    'sklearn.linear_model.LassoLarsCV',
+    'sklearn.svm.LinearSVR',
+    'sklearn.linear_model.RidgeCV'
+    ]
 
 # preprocessor lists and dicts
 implemented_preprocessor_list = ['max_abs_scaler', 'min_max_scaler', 'PCA']
