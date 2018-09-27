@@ -28,45 +28,41 @@ class benchmark_function(object):
             self.sin_kx_freq = sin_kx_freq
 
             self.linear_dict = {
+                                'name': 'linear',
                                 'mag': linear_mag,
                                 'dim': linear_dim,
                                 'sign': linear_sig
                                }
 
             self.sin_kx_dict = {
+                                'name': 'sin_kx',
                                 'mag': sin_kx_mag,
                                 'dim': sin_kx_dim,
                                 'sign': sin_kx_sig
                                }
 
             self.kx_2_dict = {
+                                'name': 'kx_2',
                                 'mag': kx_2_mag,
                                 'dim': kx_2_dim,
                                 'sign': kx_2_sig
                                }
 
             self.kx_3_dict = {
+                                'name': 'kx_3',
                                 'mag': kx_3_mag,
                                 'dim': kx_3_dim,
                                 'sign': kx_3_sig
                                }
 
+            self.param_dicts = (
+                               self.linear_dict, self.sin_kx_dict,
+                               self.kx_2_dict, self.kx_3_dict
+                               )
 
-            self.sin_kx_mag = sin_kx_mag
-            self.kx_2_mag = kx_2_mag
-            self.kx_3_mag = kx_3_mag
+            self.unit_vector_dict = {
+                                    d['name']: unit_vector(d['dim'], self.n_features)
+                                    for d in self.param_dicts
+                                    }
 
-            self.lin_dim = lin_dim
-            self.sin_kx_dim = sin_kx_dim
-            self.kx_2_dim = kx_2_dim
-            self.kx_3_dim = kx_3_dim
-
-            self.lin_sign = lin_sign
-            self.sin_kx_sign = sin_kx_sign
-            self.kx_2_sign = kx_2_sign
-            self.kx_3_sign = kx_3_sign
-
-
-
-            self.linear_unit_vector = unit_vector(lin_dim, n_features)
-            self.structure_unit_vector = unit_vector(structure_dim, n_features)
+                                    
