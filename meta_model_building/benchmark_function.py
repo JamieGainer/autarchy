@@ -3,6 +3,12 @@
 
 import numpy as np
 
+def unit_vector(dim, embedded_dim):
+    assert embedded_dim >= dim
+    vec = np.random.randn(dim)
+    vec /= np.linalg.norm(vec)
+    zeros = np.zeros(embedded_dim - dim)
+    return np.hstack((vec, zeros))
 
 class benchmark_function(object):
 
