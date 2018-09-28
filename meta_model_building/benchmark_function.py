@@ -27,16 +27,14 @@ def kx_3(k, x):
 class benchmark_function(object):
 
         def __init__(
-                self, n_features, n_samples,
-                random_mag, linear_mag, sin_kx_mag, kx_2_mag, kx_3_mag
-                lin_dim, sin_kx_dim, kx_2_dim, kx_3_dim,
-                lin_sign, sin_kx_sign, kx_2_sign, kx_3_sign,
-                sin_kx_freq, sin_kx_phase,
-                seed = 42
-                )
+                    self, n_features,
+                    random_mag, linear_mag, sin_kx_mag, kx_2_mag, 
+                    kx_3_mag, lin_dim, sin_kx_dim, kx_2_dim, kx_3_dim,
+                    lin_sign, sin_kx_sign, kx_2_sign, kx_3_sign,
+                    sin_kx_freq, sin_kx_phase, seed=42
+                    ):
 
             self.n_features = n_features
-            self.n_samples = n_samples
 
             self.random_mag = random_mag
             self.sin_kx_freq = sin_kx_freq
