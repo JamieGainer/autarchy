@@ -116,7 +116,7 @@ class benchmark_function(object):
                         )
 
             def function(x):
-                return sum(function_values(x))
+                return sum(function_values(x))/self.normalization
 
 
 
