@@ -44,29 +44,29 @@ class benchmark_function(object):
             self.linear_dict = {
                                 'name': 'linear',
                                 'mag': linear_mag,
-                                'dim': linear_dim,
-                                'sign': linear_sig
+                                'dim': lin_dim,
+                                'sign': lin_sign
                                }
 
             self.sin_kx_dict = {
                                 'name': 'sin_kx',
                                 'mag': sin_kx_mag,
                                 'dim': sin_kx_dim,
-                                'sign': sin_kx_sig
+                                'sign': sin_kx_sign
                                }
 
             self.kx_2_dict = {
                                 'name': 'kx_2',
                                 'mag': kx_2_mag,
                                 'dim': kx_2_dim,
-                                'sign': kx_2_sig
+                                'sign': kx_2_sign
                                }
 
             self.kx_3_dict = {
                                 'name': 'kx_3',
                                 'mag': kx_3_mag,
                                 'dim': kx_3_dim,
-                                'sign': kx_3_sig
+                                'sign': kx_3_sign
                                }
 
             self.param_dicts = (
