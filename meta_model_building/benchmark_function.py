@@ -31,7 +31,8 @@ class benchmark_function(object):
                 random_mag, linear_mag, sin_kx_mag, kx_2_mag, kx_3_mag
                 lin_dim, sin_kx_dim, kx_2_dim, kx_3_dim,
                 lin_sign, sin_kx_sign, kx_2_sign, kx_3_sign,
-                sin_kx_freq, sin_kx_phase
+                sin_kx_freq, sin_kx_phase,
+                seed = 42
                 )
 
             self.n_features = n_features
@@ -40,6 +41,7 @@ class benchmark_function(object):
             self.random_mag = random_mag
             self.sin_kx_freq = sin_kx_freq
             self.sin_kx_phase = sin_kx_phase
+            self.seed = seed
 
             self.linear_dict = {
                                 'name': 'linear',
@@ -74,8 +76,56 @@ class benchmark_function(object):
                                self.kx_2_dict, self.kx_3_dict
                                )
 
+            self.mags = (d['mag'] for d in self.param_dicts)
+
+            self.normalization = self.random_mag + sum(self.mags)
+
             self.unit_vector_dict = {
                                     d['name']: self.unit_vector(d['dim'], self.n_features)
                                     for d in self.param_dicts
                                     }
+
+            def full_linear(x):
+                return (self.linear_dict['mag'] * self.linear_dict['sign'] * 
+                    linear(self.unit_vector_dict['linear'], x))
+
+            def full_sin_kx(x):
+                return (self.sin_kx_dict['mag'] * self.sin_kx_dict['sign'] * 
+                    linear(self.unit_vector_dict['sin_kx'], x,
+                        self.sin_kx_freq, self.sin_kx_phase))
+
+            def full_kx_2(x):
+                return (self.kx_2_dict['mag'] * self.kx_2_dict['sign'] * 
+                    kx_2(self.unit_vector_dict['kx_2'], x))
+
+            def full_kx_3(x):
+                return (self.kx_3_dict['mag'] * self.kx_3_dict['sign'] * 
+                    kx_3(self.unit_vector_dict['kx_3'], x))
+
+            def full_random(x):
+                np.random.seed(self.seed)
+                return self.random_mag * np.random.rand(x.shape[0])
+
+            def function_values(x):
+                return (
+                        full_linear(x),
+                        full_sin_kx(x),
+                        full_kx_2(x),
+                        full_kx_3(x),
+                        full_random(x)
+                        )
+
+            def function(x):
+                return sum(function_values(x))
+
+
+
+
+
+
+
+
+
+
+
 
