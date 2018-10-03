@@ -20,7 +20,7 @@ if input_file_name == 'boston':
     data, target = housing.data, housing.target
 else:
     try:
-        file_data = np.genfromtxt(input_file_name, delimiter=',')
+        file_data = np.genfromtxt(input_file_name, delimiter=',', skip_header=1)
     except:
         print(
             "Failed to read data file", input_file_name,
@@ -159,7 +159,9 @@ x_train, x_test, y_train, y_test = train_test_split(
 tpot = TPOTRegressor(**run_param)
 train_scores = []
 test_scores = []
+cv_scores = []
 best_pipelines = []
+
 
 start_time = time.time()
 time_int = int(round(start_time))
@@ -173,38 +175,37 @@ for i_gen in range(epochs):
     train_scores.append(tpot.score(x_train, y_train))
     test_scores.append(tpot.score(x_test, y_test))
     best_pipelines.append(tpot._optimized_pipeline)
+    cv_scores.append(max([x.fitness.values[1] for x in tpot._pop]))
     tpot.export(output_name + '-' + str(i_gen) + '.py')
 
 train_scores = np.array(train_scores)
 test_scores = np.array(test_scores)
+cv_scores = np.array(cv_scores)
 mean_train_target = np.mean(y_train)
 mean_test_target = np.mean(y_test)
-rmse_percent_train = -train_scores/np.sqrt(mean_train_target)
-rmse_percent_test = -test_scores/np.sqrt(mean_test_target)
-
-print('train:', train_scores)
-print('test:', test_scores)
-print('mean train:', mean_train_target)
-print('mean test:', mean_test_target)
-print('rmse_percent_train:', rmse_percent_train)
-print('rmse_percent_test:', rmse_percent_test)
+mean_data = np.mean(target)
+median_train_target = np.median(y_train)
+median_test_target = np.median(y_test)
+median_data = np.median(target)
 
 finish_time = time.time()
 
 
 # Prepare metadata dictionary for pickling
 pickle_dict = {}
-pickle_dict['evaluated_individuals'] = tpot.evaluated_individuals_
 pickle_dict.update(run_param)
 pickle_dict.update(split_param)
 pickle_dict.update(seed)
 
 pickle_dict['test_scores'] = test_scores
 pickle_dict['train_scores'] = train_scores
+pickle_dict['cv_scores'] = cv_scores
 pickle_dict['mean_train_target'] = mean_train_target
 pickle_dict['mean_test_target'] = mean_test_target
-pickle_dict['rmse_percent_train'] = rmse_percent_train
-pickle_dict['rmse_percent_test'] = rmse_percent_test
+pickle_dict['mean_data'] = mean_data
+pickle_dict['median_train_target'] = median_train_target
+pickle_dict['median_test_target'] = median_test_target
+pickle_dict['median_data'] = median_data
 
 pickle_dict['model_space'] = model_space
 pickle_dict['preprocessor'] = preprocessor
@@ -216,6 +217,7 @@ pickle_dict['conifg_dict'] = config_dict
 
 pickle_dict['duration'] = finish_time - start_time
 pickle_dict['output_pickle'] = output_pickle
+pickle_dict['input_file_name'] = input_file_name
 
 with open(output_pickle, 'wb') as pickle_file:
     pickle.dump(pickle_dict, pickle_file)
