@@ -48,6 +48,13 @@ if '-feature_column' in sys.argv:
     fc_position = sys.argv.index('-feature_column')
     try:
         feature_column = int(sys.argv[fc_position + 1])
+        if input_file_name == 'boston':
+            if feature_column not in [-1, 14]:
+                print(
+                     'Cannot set different feature column',
+                     'for Boston housing data.'
+                     )
+                raise exception
         print('feature column set to', feature_column)
     except:
         print('Misunderstood feature column.  Aborting.')
