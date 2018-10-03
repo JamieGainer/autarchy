@@ -9,7 +9,7 @@ from tpot.config.regressor_light import regressor_config_dict_light
 # model lists and dicts
 implemented_model_list = [
     'regression', 'regression_light', 'knn',
-    'decision_tree', 'linear', 'SVR'
+    'decision_tree', 'linear', 'SVR', 'DNN'
     ]
 linear_model_list = [
     'sklearn.linear_model.ElasticNetCV',
