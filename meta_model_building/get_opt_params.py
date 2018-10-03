@@ -11,6 +11,8 @@ import utility
 model_list = utility.implemented_model_list
 preprocessor_list = utility.implemented_preprocessor_list
 
+
+
 if len(sys.argv) == 1 or sys.argv[1] == 'boston':
     input_file_name = 'boston'
 else:
@@ -20,15 +22,14 @@ if input_file_name == 'boston':
     data, target = housing.data, housing.target
 else:
     try:
-        file_data = np.genfromtxt(input_file_name, delimiter=',')
+        file_data = np.genfromtxt(input_file_name, delimiter=',', skip_header=1)
     except:
         print(
             "Failed to read data file", input_file_name,
             "as CSV.  Aborting."
             )
         quit()
-    data, target = file_data[:, :-1], file_data[:, -1:]
-    target = np.ravel(target)
+
 
 if '-seed' in sys.argv:
     seed_position = sys.argv.index('-seed')
@@ -41,6 +42,25 @@ if '-seed' in sys.argv:
 else:
     seed_value = 42
     print('Random seeds set to 42')
+
+feature_column = -1
+if '-feature_column' in sys.argv:
+    fc_position = sys.argv.index('-feature_column')
+    try:
+        feature_column = int(sys.argv[fc_position + 1])
+        if input_file_name == 'boston':
+            if feature_column not in [-1, 14]:
+                print(
+                     'Cannot set different feature column',
+                     'for Boston housing data.'
+                     )
+                raise exception
+        print('feature column set to', feature_column)
+    except:
+        print('Misunderstood feature column.  Aborting.')
+        quit()
+
+print('feature_column = ', feature_column)
 
 if '-model_space' in sys.argv:
     ms_position = sys.argv.index('-model_space')
@@ -121,6 +141,29 @@ if '-verbosity' in sys.argv:
               'Aborting.'
              )
 
+# choosing target and other columns in general
+if input_file_name == 'boston':
+    pass
+else:
+    data_shape = file_data.shape
+    print(data_shape)
+    try:
+        if feature_column in [-1, data_shape[1] - 1]:
+            data, target = file_data[:, :-1], file_data[:, -1:]
+        elif feature_column in [0, -data_shape[1]]:
+            data, target = file_data[:, 1:], file_data[:, :1]
+            target = np.ravel(target)
+        else:
+            target = file_data[:, feature_column]
+            data = np.hstack((
+                             file_data[:, :feature_column],
+                             file_data[:, feature_column + 1:]
+                            ))
+    except:
+        print('Cannot choose feature_column', feature_column)
+        print('Aborting.')
+        quit()
+
 print('Parameters:')
 print('Input file name:', input_file_name)
 print('Hyperparameter space:', model_space)
@@ -159,7 +202,9 @@ x_train, x_test, y_train, y_test = train_test_split(
 tpot = TPOTRegressor(**run_param)
 train_scores = []
 test_scores = []
+cv_scores = []
 best_pipelines = []
+
 
 start_time = time.time()
 time_int = int(round(start_time))
@@ -173,22 +218,37 @@ for i_gen in range(epochs):
     train_scores.append(tpot.score(x_train, y_train))
     test_scores.append(tpot.score(x_test, y_test))
     best_pipelines.append(tpot._optimized_pipeline)
+    cv_scores.append(max([x.fitness.values[1] for x in tpot._pop]))
     tpot.export(output_name + '-' + str(i_gen) + '.py')
-print('train:', train_scores)
-print('test:', test_scores)
 
+train_scores = np.array(train_scores)
+test_scores = np.array(test_scores)
+cv_scores = np.array(cv_scores)
+mean_train_target = np.mean(y_train)
+mean_test_target = np.mean(y_test)
+mean_data = np.mean(target)
+median_train_target = np.median(y_train)
+median_test_target = np.median(y_test)
+median_data = np.median(target)
 
 finish_time = time.time()
 
 
 # Prepare metadata dictionary for pickling
 pickle_dict = {}
-pickle_dict['evaluated_individuals'] = tpot.evaluated_individuals_
 pickle_dict.update(run_param)
 pickle_dict.update(split_param)
 pickle_dict.update(seed)
+
 pickle_dict['test_scores'] = test_scores
 pickle_dict['train_scores'] = train_scores
+pickle_dict['cv_scores'] = cv_scores
+pickle_dict['mean_train_target'] = mean_train_target
+pickle_dict['mean_test_target'] = mean_test_target
+pickle_dict['mean_data'] = mean_data
+pickle_dict['median_train_target'] = median_train_target
+pickle_dict['median_test_target'] = median_test_target
+pickle_dict['median_data'] = median_data
 
 pickle_dict['model_space'] = model_space
 pickle_dict['preprocessor'] = preprocessor
@@ -200,6 +260,7 @@ pickle_dict['conifg_dict'] = config_dict
 
 pickle_dict['duration'] = finish_time - start_time
 pickle_dict['output_pickle'] = output_pickle
+pickle_dict['input_file_name'] = input_file_name
 
 with open(output_pickle, 'wb') as pickle_file:
     pickle.dump(pickle_dict, pickle_file)
