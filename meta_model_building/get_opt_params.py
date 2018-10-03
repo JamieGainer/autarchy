@@ -11,6 +11,8 @@ import utility
 model_list = utility.implemented_model_list
 preprocessor_list = utility.implemented_preprocessor_list
 
+
+
 if len(sys.argv) == 1 or sys.argv[1] == 'boston':
     input_file_name = 'boston'
 else:
@@ -27,8 +29,7 @@ else:
             "as CSV.  Aborting."
             )
         quit()
-    data, target = file_data[:, :-1], file_data[:, -1:]
-    target = np.ravel(target)
+
 
 if '-seed' in sys.argv:
     seed_position = sys.argv.index('-seed')
@@ -41,6 +42,18 @@ if '-seed' in sys.argv:
 else:
     seed_value = 42
     print('Random seeds set to 42')
+
+feature_column = -1
+if '-feature_column' in sys.argv:
+    fc_position = sys.argv.index('-feature_column')
+    try:
+        feature_column = int(sys.argv[fc_position + 1])
+        print('feature column set to', feature_column)
+    except:
+        print('Misunderstood feature column.  Aborting.')
+        quit()
+
+print('feature_column = ', feature_column)
 
 if '-model_space' in sys.argv:
     ms_position = sys.argv.index('-model_space')
@@ -120,6 +133,10 @@ if '-verbosity' in sys.argv:
               'Verbosity cannot be set to the specified value. ',
               'Aborting.'
              )
+
+# choosing target and other columns in general
+data, target = file_data[:, :-1], file_data[:, -1:]
+target = np.ravel(target)
 
 print('Parameters:')
 print('Input file name:', input_file_name)
