@@ -12,7 +12,6 @@ model_list = utility.implemented_model_list
 preprocessor_list = utility.implemented_preprocessor_list
 
 
-
 if len(sys.argv) == 1 or sys.argv[1] == 'boston':
     input_file_name = 'boston'
 else:
@@ -20,16 +19,17 @@ else:
 if input_file_name == 'boston':
     housing = load_boston()
     data, target = housing.data, housing.target
+    data_shape = (506, 14)
 else:
     try:
         file_data = np.genfromtxt(input_file_name, delimiter=',', skip_header=1)
+        data_shape = file_data.shape
     except:
         print(
             "Failed to read data file", input_file_name,
             "as CSV.  Aborting."
             )
         quit()
-
 
 if '-seed' in sys.argv:
     seed_position = sys.argv.index('-seed')
@@ -75,7 +75,10 @@ if '-model_space' in sys.argv:
 else:
     model_space = 'regression'
 print('Model space set to', model_space)
-config_dict = utility.model_config_dict(model_space)
+if model_space.upper() == 'DNN':
+    config_dict = utility.NN_config_dictionary(*data_shape)
+else:
+    config_dict = utility.model_config_dict(model_space)
 
 preprocessor = None
 if '-preprocessor' in sys.argv:
@@ -145,8 +148,6 @@ if '-verbosity' in sys.argv:
 if input_file_name == 'boston':
     pass
 else:
-    data_shape = file_data.shape
-    print(data_shape)
     try:
         if feature_column in [-1, data_shape[1] - 1]:
             data, target = file_data[:, :-1], file_data[:, -1:]
