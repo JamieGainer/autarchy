@@ -1,0 +1,115 @@
+1:
+    url: 'https://www.openml.org/data/get_csv/52624/balloon.arff'
+    file_name: 'balloon.csv'
+    target_column: -1
+    data_shape: None
+2:
+    url: 'https://www.openml.org/data/get_csv/52643/boston.arff'
+    file_name: 'boston.csv'
+    target_column: -1
+    data_shape: None
+3:
+    url: 'https://www.openml.org/data/get_csv/3626/dataset_2175_kin8nm.arff'
+    file_name: 'dataset_2175_kin8nm.csv'
+    target_column: -1
+    data_shape: None
+4:
+    url: 'https://www.openml.org/data/get_csv/3633/dataset_2182_autoMpg.arff'
+    file_name: 'dataset_2182_autoMpg.csv'
+    target_column: -1
+    data_shape: None
+5:
+    url: 'https://www.openml.org/data/get_csv/3652/dataset_2201_2dplanes.arff'
+    file_name: 'dataset_2201_2dplanes.csv'
+    target_column: -1
+    data_shape: None
+6:
+    url: 'https://www.openml.org/data/get_csv/3653/dataset_2202_elevators.arff'
+    file_name: 'dataset_2202_elevators.csv'
+    target_column: -1
+    data_shape: None
+7:
+    url: 'https://www.openml.org/data/get_csv/3660/dataset_2209_stock.arff'
+    file_name: 'dataset_2209_stock.csv'
+    target_column: -1
+    data_shape: None
+8:
+    url: 'https://www.openml.org/data/get_csv/3664/dataset_2213_cpu_small.arff'
+    file_name: 'dataset_2213_cpu_small.csv'
+    target_column: -1
+    data_shape: None
+9:
+    url: 'https://www.openml.org/data/get_csv/52742/fried.arff'
+    file_name: 'fried.csv'
+    target_column: -1
+    data_shape: None
+10:
+    url: 'https://www.openml.org/data/get_csv/52752/house_16H.arff'
+    file_name: 'house_16H.csv'
+    target_column: -1
+    data_shape: None
+11:
+    url: 'https://www.openml.org/data/get_csv/52649/houses.arff'
+    file_name: 'houses.csv'
+    target_column: 0
+    data_shape: None
+12:
+    url: 'https://www.openml.org/data/get_csv/52517/mtp.arff'
+    file_name: 'mtp.csv'
+    target_column: -1
+    data_shape: None
+13:
+    url: 'https://www.openml.org/data/get_csv/52659/no2.arff'
+    file_name: 'no2.csv'
+    target_column: 0
+    data_shape: None
+14:
+    url: 'https://www.openml.org/data/get_csv/1390070/phpYYZ4Qc'
+    file_name: 'phpJEvZWG.csv'
+    target_column: -1
+    data_shape: None
+15:
+    url: 'https://www.openml.org/data/get_csv/1390070/phpYYZ4Qc'
+    file_name: 'phpYYZ4Qc.csv'
+    target_column: -1
+    data_shape: None
+16:
+    url: 'https://www.openml.org/data/get_csv/52662/quake.arff'
+    file_name: 'quake.csv'
+    target_column: -1
+    data_shape: None
+17:
+    url: 'https://www.openml.org/data/get_csv/52658/sensory.arff'
+    file_name: 'sensory.csv'
+    target_column: -1
+    data_shape: None
+18:
+    url: 'https://www.openml.org/data/get_csv/52619/space_ga.arff'
+    file_name: 'space_ga.csv'
+    target_column: 0
+    data_shape: None
+19:
+    url: 'https://www.openml.org/data/get_csv/52661/strikes.arff'
+    file_name: 'strikes.csv'
+    target_column: 2
+    data_shape: None
+20:
+    url: 'https://www.openml.org/data/get_csv/52617/tecator.arff'
+    file_name: 'tecator.csv'
+    target_column: -2
+    data_shape: None
+21:
+    url: 'https://www.openml.org/data/get_csv/49817/wine_quality.arff'
+    file_name: 'wine_quality.csv'
+    target_column: -1
+    data_shape: None
+22:
+    url: 'https://www.openml.org/data/get_csv/52615/wind.arff'
+    file_name: 'wind.csv'
+    target_column: -1
+    data_shape: None
+23:
+    url: 'https://www.openml.org/data/get_csv/52247/php2DaFKg'
+    file_name: 'php2DaFKg.csv'
+    target_column: -1
+    data_shape: None
