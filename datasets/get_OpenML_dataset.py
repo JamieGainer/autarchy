@@ -13,4 +13,10 @@
 
     """
 
+import argparse
+import yaml
+
+dataset_dict = yaml.load('dataset_info.yaml')
+
+parser = argparse.ArgumentParser(description='Download OpenML dataset')
 
