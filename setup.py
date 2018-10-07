@@ -10,7 +10,6 @@ setuptools.setup(
     author_email="james.samuel.gainer@gmail.com",
     description="Fast AutoML for Structured Data: an Insight Data Science Project",
     long_description=long_description,
-    long_description_content_type="text/markdown",
     url="https://github.com/JamieGainer/autarchy",
     packages=setuptools.find_packages(),
     classifiers=[
