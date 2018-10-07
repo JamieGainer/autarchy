@@ -16,7 +16,10 @@
 import argparse
 import yaml
 
-dataset_dict = yaml.load('dataset_info.yaml')
+with open('dataset_info.yaml', 'r') as yaml_file:
+    dataset_dict = yaml.load(yaml_file)
+print(dataset_dict)
 
 parser = argparse.ArgumentParser(description='Download OpenML dataset')
+
 
