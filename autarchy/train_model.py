@@ -7,6 +7,29 @@ import sys
 import tensorflow as tf
 from tensorflow import keras
 
+from tensorflow.keras.models import Sequential
+from tensorflow.keras.layers import Dense
+from tensorflow.keras.wrappers.scikit_learn import KerasRegressor
+from sklearn.model_selection import cross_val_score
+from sklearn.model_selection import KFold
+from sklearn.preprocessing import StandardScaler
+from sklearn.pipeline import Pipeline
+
+def baseline_general(n_features, n_hidden):
+    model = Sequential()
+    model.add(
+             Dense(
+                   n_hidden, 
+                   input_dim=n_features, 
+                   kernel_initializer='normal',
+                   activation='relu'
+                  )
+             )
+    model.add(Dense(1, kernel_initializer='normal'))
+    # Compile model
+    model.compile(loss='mean_squared_error', optimizer='adam')
+    return model
+
 run_params = ['target_column', 'seed']
 
 try:
@@ -56,6 +79,17 @@ mask = (file_data == file_data)
 mask[:, param_dict['target_column']] = False
 
 x = file_data[mask].reshape((n_samples, n_features))
+
+hidden_layer_n = 10
+
+np.random.seed(param_dict['seed'])
+baseline_model = baseline_general(n_features, 13)
+estimator = KerasRegressor(
+                          build_fn=baseline_model,
+                          epochs=100,
+                          batch_size=5,
+                          verbose=0
+                          )
 
 
 
