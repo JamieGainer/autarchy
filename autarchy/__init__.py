@@ -1,3 +1,2 @@
 name = 'autarchy'
-name = 'autarchy'
 
