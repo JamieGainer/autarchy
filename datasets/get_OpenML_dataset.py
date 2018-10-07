@@ -10,16 +10,37 @@
 
     Usage:
 
+    get_OpenML_dataset.py n
+
+    downloads datset labelled by the integer n
+
+    get_OpenML_dataset.py all
+
+    download all datasets
+
 
     """
 
-import argparse
+def download_from_URL(url):
+    pass
+
+
+def download_dataset(n, dataset_dict):
+    import os
+    dataset_entry = dataset_dict[n]
+    file_name = dataset_entry['file_name']
+    if file_name in os.listdir('.'):
+        print(file_name, 'already downloaded.')
+    else:
+        download_from_URL(dataset_dict[n]['url'])
+
+import sys
 import yaml
+
+print(len(sys.argv))
 
 with open('dataset_info.yaml', 'r') as yaml_file:
     dataset_dict = yaml.load(yaml_file)
-print(dataset_dict)
 
-parser = argparse.ArgumentParser(description='Download OpenML dataset')
 
 
