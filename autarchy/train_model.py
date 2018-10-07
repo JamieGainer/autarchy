@@ -22,6 +22,8 @@ except:
     quit()
 
 data_shape = file_data.shape
+n_features = data_shape[1] - 1
+n_samples = data_shape[0]
 
 param_dict = {
              'target_column': -1,
@@ -29,7 +31,7 @@ param_dict = {
              }
 
 for run_param in run_params:
-    argument = '_' + run_param
+    argument = '-' + run_param
     if argument in sys.argv:
         try:
             index = sys.argv.index(argument)
@@ -40,5 +42,21 @@ for run_param in run_params:
                  'Value of', argument, 'must be integer provided',
                  'after', argument, '\b.')
             quit()
+
+for run_param in run_params:
+    print(run_param, '\b:', param_dict[run_param])
+
+try:
+    y = file_data[:, param_dict['target_column']]
+except IndexError:
+    print(param_dict['target_column'], 'is not a valid column.')
+    quit()
+
+mask = (file_data == file_data)
+mask[:, param_dict['target_column']] = False
+
+x = file_data[mask].reshape((n_samples, n_features))
+
+
 
 
