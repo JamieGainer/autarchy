@@ -5,7 +5,8 @@ def model_from_architecture(
                            activation='sigmoid',
                            initializer='normal',
                            loss='mean_squared_error',
-                           optimizer='adam'
+                           optimizer='adam',
+                           regularizer='l2'
                            ):
     """Return a dense neural network
     
@@ -13,12 +14,21 @@ def model_from_architecture(
     lam_reg: l2 regulator for each layer
     activation: activation function for each neuron outside the final layer
     intializer: function to intialize the weights
+    regularizer: either 'l1' or 'l2'-- selection of weight regularization
     """
     from tensorflow.keras.models import Sequential
     from tensorflow.keras.layers import Dense
     from tensorflow.keras import regularizers
 
     assert len(arch_list) > 2
+
+    assert regularizer.upper() in ['L1', 'L2']
+
+    if regularizer.upper() == 'L1':
+        regularizer = regularizers.l1
+    else:
+        regularizer = regularizers.l2
+
     input_dim = arch_list[0]
     output_dim = arch_list[-1]
     
@@ -31,7 +41,7 @@ def model_from_architecture(
                      kernel_initializer=initializer,
                      activation=activation,
                      input_dim=input_dim,
-                     kernel_regularizer=regularizers.l2(lam_reg)
+                     kernel_regularizer=regularizer(lam_reg)
                      )
                 )
     
@@ -42,7 +52,7 @@ def model_from_architecture(
                          n_neurons,
                          kernel_initializer=initializer,
                          activation = activation,
-                         kernel_regularizer=regularizers.l2(lam_reg)
+                         kernel_regularizer=regularizer(lam_reg)
                          )
                     )
         
@@ -51,7 +61,7 @@ def model_from_architecture(
                 Dense(
                      output_dim,
                      kernel_initializer=initializer,
-                     kernel_regularizer=regularizers.l2(lam_reg)
+                     kernel_regularizer=regularizer(lam_reg)
                      )
                 )
     
