@@ -13,9 +13,9 @@ import my_io
 import my_keras
 
 start_time = time.time()
-run_dictionary = my_io.read_data_from_command_line_args(sys.argv)
-if not run_dictionary['OK']:
-    print(run_dictionary['message'])
+run_dict = my_io.read_data_from_command_line_args(sys.argv)
+if not run_dict['OK']:
+    print(run_dict['message'])
     print('Quitting.')
     quit()
 
@@ -27,7 +27,11 @@ patience = 100
 train_size = 0.75
 test_size  = 0.25
 
+
+
 x, y = [run_dictionary[label] for label in ['x', 'y']]
+EPOCHS, patience = [run_dictionary[label] for label in ['EPOCHS', 'patience']]
+
 
 (
 x_train, 
