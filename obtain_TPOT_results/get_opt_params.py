@@ -153,7 +153,6 @@ else:
             data, target = file_data[:, :-1], file_data[:, -1:]
         elif feature_column in [0, -data_shape[1]]:
             data, target = file_data[:, 1:], file_data[:, :1]
-            target = np.ravel(target)
         else:
             target = file_data[:, feature_column]
             data = np.hstack((
@@ -164,6 +163,7 @@ else:
         print('Cannot choose feature_column', feature_column)
         print('Aborting.')
         quit()
+    target = np.ravel(target)
 
 print('Parameters:')
 print('Input file name:', input_file_name)
