@@ -2,95 +2,69 @@
 
     """
 
-import numpy as np
-import sys
-import tensorflow as tf
 from tensorflow import keras
+import sys
+import time
 
-from tensorflow.keras.models import Sequential
-from tensorflow.keras.layers import Dense
-from tensorflow.keras.wrappers.scikit_learn import KerasRegressor
-from sklearn.model_selection import cross_val_score
-from sklearn.model_selection import KFold
-from sklearn.preprocessing import StandardScaler
-from sklearn.pipeline import Pipeline
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import RobustScaler
 
-def baseline_general(n_features, n_hidden):
-    model = Sequential()
-    model.add(
-             Dense(
-                   n_hidden, 
-                   input_dim=n_features, 
-                   kernel_initializer='normal',
-                   activation='relu'
-                  )
-             )
-    model.add(Dense(1, kernel_initializer='normal'))
-    # Compile model
-    model.compile(loss='mean_squared_error', optimizer='adam')
-    return model
+import my_io
+import my_keras
 
-run_params = ['target_column', 'seed']
-
-try:
-    input_file_name = sys.argv[1]
-except:
-    print('Need csv file name as first input.')
+start_time = time.time()
+run_dictionary = my_io.read_data_from_command_line_args(sys.argv)
+if not run_dictionary['OK']:
+    print(run_dictionary['message'])
+    print('Quitting.')
     quit()
 
-try:
-    file_data = np.genfromtxt(input_file_name, delimiter=',', skip_header=1)
-except:
-    print('Unable to read data file:', input_file_name)
-    quit()
-
-data_shape = file_data.shape
-n_features = data_shape[1] - 1
-n_samples = data_shape[0]
-
-param_dict = {
-             'target_column': -1,
-             'seed': 42
-             }
-
-for run_param in run_params:
-    argument = '-' + run_param
-    if argument in sys.argv:
-        try:
-            index = sys.argv.index(argument)
-            value = int(sys.argv[index + 1])
-            param_dict[run_param] = value
-        except:
-            print(
-                 'Value of', argument, 'must be integer provided',
-                 'after', argument, '\b.')
-            quit()
-
-for run_param in run_params:
-    print(run_param, '\b:', param_dict[run_param])
-
-try:
-    y = file_data[:, param_dict['target_column']]
-except IndexError:
-    print(param_dict['target_column'], 'is not a valid column.')
-    quit()
-
-mask = (file_data == file_data)
-mask[:, param_dict['target_column']] = False
-
-x = file_data[mask].reshape((n_samples, n_features))
-
-hidden_layer_n = 10
-
-np.random.seed(param_dict['seed'])
-baseline_model = baseline_general(n_features, 13)
-estimator = KerasRegressor(
-                          build_fn=baseline_model,
-                          epochs=100,
-                          batch_size=5,
-                          verbose=0
-                          )
 
 
+EPOCHS = 1000
+patience = 100
 
+train_size = 0.75
+test_size  = 0.25
+
+x, y = [run_dictionary[label] for label in ['x', 'y']]
+
+(
+x_train, 
+x_test,
+y_train,
+y_test
+) = train_test_split(
+                    x, y, train_size=train_size,
+                    test_size=test_size, 
+                    random_state=run_dictionary['seed']
+                    )
+
+scaler = RobustScaler()
+scaled_x_train = scaler.fit_transform(x_train)
+
+early_stop = keras.callbacks.EarlyStopping(monitor='val_loss', patience=500)
+arch_list = [13,1000,1000,1]
+lam_reg = 0.1
+
+arch_list = [13,100,60,30,20,10,1]
+my_model = my_keras.model_from_architecture(arch_list, lam_reg)
+print(arch_list, lam_reg)
+
+history = my_model.fit(
+                      scaled_x_train, y_train, epochs=EPOCHS,
+                      validation_split=0.1, 
+                      verbose=0,
+                      callbacks=[my_keras.PrintDot(), early_stop]
+                      )
+        
+val_loss = history.history['val_loss'][-1]
+train_loss = history.history['loss'][-1]
+scaled_x_test = sx_testr.transform(x_test)
+test_loss = my_model.predict(scaled_x_test)
+
+print('\nval_loss:', val_loss)
+print('train_loss:', train_loss)
+print('test_loss:', test_loss)
+print('time:', time.time() - start_time)
 
