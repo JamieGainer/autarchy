@@ -36,10 +36,10 @@ def read_data_from_command_line_args(sys_argv):
 
     for run_param in param_dict:
         argument = '-' + run_param
-        if argument in sys.argv:
+        if argument in sys_argv:
             try:
-                index = sys.argv.index(argument)
-                value = int(sys.argv[index + 1])
+                index = sys_argv.index(argument)
+                value = int(sys_argv[index + 1])
                 param_dict[run_param] = value
             except:
                 return_dict['OK'] = False

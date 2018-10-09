@@ -1,5 +1,16 @@
 """ Module with methods for constructing dense neural networks, for growing layers, ... """
 
+from tensorflow import keras
+
+class PrintDot(keras.callbacks.Callback):
+    """ Copied from the tutorial at 
+    https://www.tensorflow.org/tutorials/keras/basic_regression """
+    def on_epoch_end(self, epoch, logs):
+        if epoch % 100 == 0:
+            print('')
+        print('.', end='')
+
+
 def model_from_architecture(
                            arch_list, lam_reg, 
                            activation='sigmoid',
