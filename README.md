@@ -29,7 +29,7 @@ Runs TPOT for a single model training for a randomly selected hyperparameter poi
 
 
 ## Repo Format:
-- **autarchy** : X
-- **obtain_TPOT_results** : X
-- **datasets** : X
-- **TPOT_results_archive** : X
+- **autarchy** : Package directory for autarchy.
+- **obtain_TPOT_results** : Code for running TPOT to obtain data about how well AutoML performs.
+- **datasets** : Code to download datasets/ info about benchmark datasets.
+- **TPOT_results_archive** : Some data about running TPOT on the datasets.  Organized by AutoML run, then by dataset number.
