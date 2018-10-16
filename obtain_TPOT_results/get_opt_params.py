@@ -200,8 +200,17 @@ x_train, x_test, y_train, y_test = train_test_split(
     test_size=split_param['test_size'], random_state=seed['split_seed']
     )
 
+x_train, x_val, y_train, y_val = train_test_split(
+    x_train, y_train, train_size=13./14.,
+    test_size=1./14., random_state=seed['split_seed']
+    )
+
+split_param['train_size'] = 0.65
+split_param['validation_size'] = 0.10
+
 tpot = TPOTRegressor(**run_param)
 train_scores = []
+val_scores = []
 test_scores = []
 cv_scores = []
 best_pipelines = []
@@ -218,11 +227,13 @@ for i_gen in range(epochs):
     tpot.fit(x_train, y_train)
     train_scores.append(tpot.score(x_train, y_train))
     test_scores.append(tpot.score(x_test, y_test))
+    val_scores.append(tpot.score(x_val, y_val))
     best_pipelines.append(tpot._optimized_pipeline)
     cv_scores.append(max([x.fitness.values[1] for x in tpot._pop]))
     tpot.export(output_name + '-' + str(i_gen) + '.py')
 
 train_scores = np.array(train_scores)
+val_scores = np.array(val_scores)
 test_scores = np.array(test_scores)
 cv_scores = np.array(cv_scores)
 mean_train_target = np.mean(y_train)
@@ -242,6 +253,7 @@ pickle_dict.update(split_param)
 pickle_dict.update(seed)
 
 pickle_dict['test_scores'] = test_scores
+pickle_dict['val_scores'] = val_scores
 pickle_dict['train_scores'] = train_scores
 pickle_dict['cv_scores'] = cv_scores
 pickle_dict['mean_train_target'] = mean_train_target
