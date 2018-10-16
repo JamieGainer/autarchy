@@ -3,113 +3,136 @@
     file_name: 'balloon.csv'
     target_column: -1
     data_shape: (2001, 3)
+    mean_abs_target: 0.073944027986007
 2:
     url: 'https://www.openml.org/data/get_csv/52643/boston.arff'
     file_name: 'boston.csv'
     target_column: -1
     data_shape: (506, 14)
+    mean_abs_target: 22.532806324110677
 3:
     url: 'https://www.openml.org/data/get_csv/3626/dataset_2175_kin8nm.arff'
     file_name: 'dataset_2175_kin8nm.csv'
     target_column: -1
     data_shape: (8192, 9)
+    mean_abs_target: 0.714283492357422
 4:
     url: 'https://www.openml.org/data/get_csv/3633/dataset_2182_autoMpg.arff'
     file_name: 'dataset_2182_autoMpg.csv'
     target_column: -1
     data_shape: (398, 8)
+    mean_abs_target: 23.514572864321607
 5:
     url: 'https://www.openml.org/data/get_csv/3652/dataset_2201_2dplanes.arff'
     file_name: 'dataset_2201_2dplanes.csv'
     target_column: -1
     data_shape: (40768, 11)
+    mean_abs_target: 3.606899323084723
 6:
     url: 'https://www.openml.org/data/get_csv/3653/dataset_2202_elevators.arff'
     file_name: 'dataset_2202_elevators.csv'
     target_column: -1
     data_shape: (16599, 19)
+    mean_abs_target: 0.021624977408277613
 7:
     url: 'https://www.openml.org/data/get_csv/3660/dataset_2209_stock.arff'
     file_name: 'dataset_2209_stock.csv'
     target_column: -1
     data_shape: (950, 10)
+    mean_abs_target: 46.99407894736842
 8:
     url: 'https://www.openml.org/data/get_csv/3664/dataset_2213_cpu_small.arff'
     file_name: 'dataset_2213_cpu_small.csv'
     target_column: -1
     data_shape: (8192, 13)
+    mean_abs_target: 83.9688720703125
 9:
     url: 'https://www.openml.org/data/get_csv/52742/fried.arff'
     file_name: 'fried.csv'
     target_column: -1
     data_shape: (40768, 11)
+    mean_abs_target: 14.407929135596548
 10:
     url: 'https://www.openml.org/data/get_csv/52752/house_16H.arff'
     file_name: 'house_16H.csv'
     target_column: -1
     data_shape: (22784, 17)
+    mean_abs_target: 50074.43978230337
 11:
     url: 'https://www.openml.org/data/get_csv/52649/houses.arff'
     file_name: 'houses.csv'
     target_column: 0
     data_shape: (20640, 9)
+    mean_abs_target: 206855.81690891474
 12:
     url: 'https://www.openml.org/data/get_csv/52517/mtp.arff'
     file_name: 'mtp.csv'
     target_column: -1
     data_shape: (4450, 203)
+    mean_abs_target: 0.3997083105617978
 13:
     url: 'https://www.openml.org/data/get_csv/52659/no2.arff'
     file_name: 'no2.csv'
     target_column: 0
     data_shape: (500, 8)
+    mean_abs_target: 3.6983678600000003
 14:
     url: 'https://www.openml.org/data/get_csv/1390070/phpYYZ4Qc'
     file_name: 'phpJEvZWG.csv'
     target_column: -1
     data_shape: (8192, 33)
+    mean_abs_target: 0.023448605834960938
 15:
     url: 'https://www.openml.org/data/get_csv/1390070/phpYYZ4Qc'
     file_name: 'phpYYZ4Qc.csv'
     target_column: -1
     data_shape: (8192, 33)
+    mean_abs_target: 0.08362133081054687
 16:
     url: 'https://www.openml.org/data/get_csv/52662/quake.arff'
     file_name: 'quake.csv'
     target_column: -1
     data_shape: (2178, 4)
+    mean_abs_target: 5.977180899908173
 17:
     url: 'https://www.openml.org/data/get_csv/52658/sensory.arff'
     file_name: 'sensory.csv'
     target_column: -1
     data_shape: (576, 12)
+    mean_abs_target: 15.074652777777779
 18:
     url: 'https://www.openml.org/data/get_csv/52619/space_ga.arff'
     file_name: 'space_ga.csv'
     target_column: 0
     data_shape: (3107, 7)
+    mean_abs_target: 0.5762985578436159
 19:
     url: 'https://www.openml.org/data/get_csv/52661/strikes.arff'
     file_name: 'strikes.csv'
     target_column: 2
     data_shape: (625, 7)
+    mean_abs_target: 302.3024
 20:
     url: 'https://www.openml.org/data/get_csv/52617/tecator.arff'
     file_name: 'tecator.csv'
     target_column: -2
     data_shape: (240, 125)
+    mean_abs_target: 18.502083333333335
 21:
     url: 'https://www.openml.org/data/get_csv/52615/wind.arff'
     file_name: 'wind.csv'
     target_column: -1
     data_shape: (6574, 15)
+    mean_abs_target: 15.599461515059325
 22:
     url: 'https://www.openml.org/data/get_csv/49817/wine_quality.arff'
     file_name: 'wine_quality.csv'
     target_column: -1
     data_shape: (6497, 12)
+    mean_abs_target: 5.818377712790519
 23:
     url: 'https://www.openml.org/data/get_csv/52247/php2DaFKg'
     file_name: 'php2DaFKg.csv'
     target_column: -1
     data_shape: (40768, 11)
+    mean_abs_target: 9.457654388298788
