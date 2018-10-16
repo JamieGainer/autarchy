@@ -8,7 +8,9 @@ The optional arguments are
 -generations
 -population
 -seed
-
+-feature_column
+-model_space
+-preprocessor
 
 """
 
@@ -52,106 +54,45 @@ else:
             )
         quit()
 
-if '-seed' in sys.argv:
-    seed_position = sys.argv.index('-seed')
-    try:
-        seed_value = int(sys.argv[seed_position + 1])
-        print('Random seeds set to', seed_value)
-    except:
-        seed_value = 42
-        print('Random seeds set to 42')
-else:
-    seed_value = 42
-    print('Random seeds set to 42')
+# default values
+seed_value, feature_column = 42, -1
+generations, population = 5, 50
+verbosity = 0
+model_space = 'regression'
 
-feature_column = -1
-if '-feature_column' in sys.argv:
-    fc_position = sys.argv.index('-feature_column')
-    try:
-        feature_column = int(sys.argv[fc_position + 1])
-        if input_file_name == 'boston':
-            if feature_column not in [-1, 14]:
-                print(
-                     'Cannot set different feature column',
-                     'for Boston housing data.'
-                     )
-                raise exception
-        print('feature column set to', feature_column)
-    except:
-        print('Misunderstood feature column.  Aborting.')
-        quit()
+if args.seed:
+    seed_value = args.seed
 
-print('feature_column = ', feature_column)
+if args.feature_column
+    feature_column = args.feature_column
 
-if '-model_space' in sys.argv:
-    ms_position = sys.argv.index('-model_space')
-    try:
-        model_space = sys.argv[ms_position + 1]
-        if model_space not in model_list:
-            print('Could not read model_space.  Aborting')
-            quit()
-    except:
+if args.generations:
+    generations = args.generations
+
+if args.population:
+    population = args.population
+
+if args.verbosity:
+    verbosity = args.verbosity
+
+if args.model_space:
+    model_space = args.model_space
+    if model_space not in model_list:
         print('Could not read model_space.  Aborting')
         quit()
-else:
-    model_space = 'regression'
-print('Model space set to', model_space)
-if model_space.upper() == 'DNN':
-    config_dict = utility.NN_config_dictionary(*data_shape)
-else:
-    config_dict = utility.model_config_dict(model_space)
+    if model_space.upper() == 'DNN':
+        config_dict = config.NN_config_dictionary(*data_shape)
+    else:
+        config_dict = config.model_config_dict(model_space)
 
-preprocessor = None
-if '-preprocessor' in sys.argv:
-    prep_position = sys.argv.index('-preprocessor')
-    try:
-        preprocessor = sys.argv[prep_position + 1]
-        if preprocessor not in preprocessor_list:
-            print(
-                'Cannot choose preprocessing method', preprocessor,
-                '\b.  Aborting.'
-                )
-            quit()
-    except:
-        print('Could not choose preprocessing method.  Aborting')
-        quit()
-if preprocessor:
-    utility.restrict_preprocessor(preprocessor, config_dict)
-
-generations = 5
-if '-generations' in sys.argv:
-    gen_position = sys.argv.index('-generations')
-    try:
-        generations = int(sys.argv[gen_position + 1])
-    except:
+if args.preprocessor:
+    if preprocessor not in preprocessor_list:
         print(
-            'Generations cannot be set to specified value. ',
-            'Aborting.')
-        quit()
-
-population = 50
-if '-population' in sys.argv:
-    pop_position = sys.argv.index('-population')
-    try:
-        population = int(sys.argv[pop_position + 1])
-    except:
-        print(
-            'Population cannot be set to the specified value. ',
-            'Aborting.'
-            )
-        quit()
-
-verbosity = 0
-if '-verbosity' in sys.argv:
-    verb_position = sys.argv.index('-verbosity')
-    try:
-        verbosity = int(sys.argv[verb_position + 1])
-        assert verbosity in [0, 1, 2, 3]
-    except:
-        print(
-              'Verbosity cannot be set to the specified value. ',
-              'Aborting.'
+             'Cannot choose preprocessing method', preprocessor,
+             '\b.  Aborting.'
              )
+        quit():
+    config.restrict_preprocessor(preprocessor, config_dict)
 
 # choosing target and other columns in general
 if input_file_name == 'boston':
