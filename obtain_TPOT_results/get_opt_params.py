@@ -1,3 +1,18 @@
+""" Script used to 
+
+Invoked:
+
+python get_opt_params.py -file_name file_name [ optional arguments ]
+
+The optional arguments are
+-generations
+-population
+-seed
+
+
+"""
+
+import argparse
 import numpy as np
 import os
 import pickle
