@@ -6,7 +6,7 @@ from sklearn.datasets import load_boston
 from sklearn.model_selection import train_test_split
 import sys
 import time
-import utility
+import config
 
 model_list = utility.implemented_model_list
 preprocessor_list = utility.implemented_preprocessor_list
