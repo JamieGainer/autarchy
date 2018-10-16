@@ -11,6 +11,7 @@ The optional arguments are
 -feature_column
 -model_space
 -preprocessor
+-verbosity
 
 """
 
@@ -36,6 +37,7 @@ parser.add_argument('--seed', '-seed')
 parser.add_argument('--feature_column', '-feature_column')
 parser.add_argument('--model_space', '-model_space')
 parser.add_argument('--preprocessor', '-preprocessor')
+parser.add_argument('--verbosity', '-verbosity')
 args = parser.parse_args()
 
 if args.file_name == None:
@@ -44,6 +46,7 @@ if args.file_name == None:
     data, target = housing.data, housing.target
     data_shape = (506, 14)
 else:
+    input_file_name = args.file_name
     try:
         file_data = np.genfromtxt(input_file_name, delimiter=',', skip_header=1)
         data_shape = file_data.shape
@@ -61,37 +64,39 @@ verbosity = 0
 model_space = 'regression'
 
 if args.seed:
-    seed_value = args.seed
+    seed_value = int(args.seed)
 
-if args.feature_column
-    feature_column = args.feature_column
+if args.feature_column:
+    feature_column = int(args.feature_column)
 
 if args.generations:
-    generations = args.generations
+    generations = int(args.generations)
 
 if args.population:
-    population = args.population
+    population = int(args.population)
 
 if args.verbosity:
-    verbosity = args.verbosity
+    verbosity = int(args.verbosity)
 
 if args.model_space:
     model_space = args.model_space
     if model_space not in model_list:
         print('Could not read model_space.  Aborting')
         quit()
-    if model_space.upper() == 'DNN':
-        config_dict = config.NN_config_dictionary(*data_shape)
-    else:
-        config_dict = config.model_config_dict(model_space)
 
-if args.preprocessor:
+if model_space.upper() == 'DNN':
+    config_dict = config.NN_config_dictionary(*data_shape)
+else:
+    config_dict = config.model_config_dict(model_space)
+
+preprocessor = args.preprocessor
+if preprocessor:
     if preprocessor not in preprocessor_list:
         print(
              'Cannot choose preprocessing method', preprocessor,
              '\b.  Aborting.'
              )
-        quit():
+        quit()
     config.restrict_preprocessor(preprocessor, config_dict)
 
 # choosing target and other columns in general
@@ -118,7 +123,7 @@ else:
 print('Parameters:')
 print('Input file name:', input_file_name)
 print('Hyperparameter space:', model_space)
-print('Preprocessor:', preprocessor)
+print('Pre-chosen Preprocessor:', preprocessor)
 print('Generations:', generations)
 print('Population:', population)
 print('Seed value:', seed_value)
