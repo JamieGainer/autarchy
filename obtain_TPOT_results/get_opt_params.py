@@ -23,15 +23,21 @@ import sys
 import time
 import config
 
-model_list = utility.implemented_model_list
-preprocessor_list = utility.implemented_preprocessor_list
+model_list = config.implemented_model_list
+preprocessor_list = config.implemented_preprocessor_list
 
+parser = argparse.ArgumentParser()
+parser.add_argument('--file_name', '-file_name')
+parser.add_argument('--generations', '-generations')
+parser.add_argument('--population', '-population')
+parser.add_argument('--seed', '-seed')
+parser.add_argument('--feature_column', '-feature_column')
+parser.add_argument('--model_space', '-model_space')
+parser.add_argument('--preprocessor', '-preprocessor')
+args = parser.parse_args()
 
-if len(sys.argv) == 1 or sys.argv[1] == 'boston':
+if args.file_name == None:
     input_file_name = 'boston'
-else:
-    input_file_name = sys.argv[1]
-if input_file_name == 'boston':
     housing = load_boston()
     data, target = housing.data, housing.target
     data_shape = (506, 14)
