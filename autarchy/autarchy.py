@@ -10,9 +10,9 @@ from sklearn.model_selection import train_test_split
 import sys
 
 parser = argparse.ArgumentParser()
+parser.add_argument('--file_name', '-file_name')
 parser.add_argument('--trainings', '-trainings')
 parser.add_argument('--quick_stop', '-quick_stop')
-parser.add_argument('--file_name', '-file_name')
 parser.add_argument('--seed', '-seed')
 parser.add_argument('--test_size', '-test_size')
 parser.add_argument('--feature_column', '-feature_column')
@@ -45,6 +45,27 @@ seed_value = 42,
 test_size = 0.25
 feature_column = -1
 verbosity = 0
+
+if args.trainings:
+    trainings = int(args.trainings)
+
+if args.quick_stop:
+    quick_stop = args.quick_stop.upper()
+
+if args.seed:
+    seed_value = int(args.seed)
+
+if args.test_size:
+    test_size = float(args.test_size)
+
+if args.feature_column:
+    feature_column = int(args.feature_column)
+
+if args.verbosity:
+    verbosity = int(args.verbosity)
+
+
+
 
 # currently limited to csv: dependent variable is last column
 try:
