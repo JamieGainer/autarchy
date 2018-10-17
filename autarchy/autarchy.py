@@ -39,10 +39,12 @@ else:
 
 
 # default values
-seed_value, feature_column = 42, -1
-generations, population = 5, 50
+trainings = 20
+quick_stop = 'NONE'
+seed_value = 42,
+test_size = 0.25
+feature_column = -1
 verbosity = 0
-model_space = 'regression'
 
 # currently limited to csv: dependent variable is last column
 try:
