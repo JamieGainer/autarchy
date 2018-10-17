@@ -44,8 +44,6 @@ generations, population = 5, 50
 verbosity = 0
 model_space = 'regression'
 
-
-
 # currently limited to csv: dependent variable is last column
 try:
 	data = np.genfromtxt(input_file_name, delimiter=',')
