@@ -19,9 +19,32 @@ parser.add_argument('--feature_column', '-feature_column')
 parser.add_argument('--verbosity', '-verbosity')
 args = parser.parse_args()
 
+if args.file_name in [None, 'boson']:
+    print('Using built-in Boston Housing Data') # log
+    input_file_name = 'boston'
+    housing = load_boston()
+    data, target = housing.data, housing.target
+    data_shape = (506, 14)
+else:
+    input_file_name = args.file_name
+    try:
+        file_data = np.genfromtxt(input_file_name, delimiter=',', skip_header=1)
+        data_shape = file_data.shape
+    except:
+        print(
+            "Failed to read data file", input_file_name,
+            "as CSV.  Aborting."
+            ) # log
+        quit()
 
-assert len(sys.argv) > 1
-input_file_name = sys.argv[1]
+
+# default values
+seed_value, feature_column = 42, -1
+generations, population = 5, 50
+verbosity = 0
+model_space = 'regression'
+
+
 
 # currently limited to csv: dependent variable is last column
 try:
