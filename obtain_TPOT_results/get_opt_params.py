@@ -17,7 +17,6 @@ The optional arguments are
 
 import argparse
 import numpy as np
-import os
 import pickle
 from tpot import TPOTRegressor
 from sklearn.datasets import load_boston
