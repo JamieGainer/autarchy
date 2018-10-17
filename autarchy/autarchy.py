@@ -1,10 +1,13 @@
 """ Main .py for running autarchy """
 from __future__ import print_function
 
+import argparse
 import numpy as np
-from sklearn import model_selection
-import sys
+import pickle
 from tpot import TPOTRegressor
+from sklearn.datasets import load_boston
+from sklearn.model_selection import train_test_split
+import sys
 
 assert len(sys.argv) > 1
 input_file_name = sys.argv[1]
