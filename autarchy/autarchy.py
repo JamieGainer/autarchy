@@ -64,8 +64,28 @@ if args.feature_column:
 if args.verbosity:
     verbosity = int(args.verbosity)
 
+# choosing target and other columns in general
+if input_file_name == 'boston':
+    pass
+else:
+    try:
+        if feature_column in [-1, data_shape[1] - 1]:
+            data, target = file_data[:, :-1], file_data[:, -1:]
+        elif feature_column in [0, -data_shape[1]]:
+            data, target = file_data[:, 1:], file_data[:, :1]
+        else:
+            target = file_data[:, feature_column]
+            data = np.hstack((
+                             file_data[:, :feature_column],
+                             file_data[:, feature_column + 1:]
+                            ))
+    except:
+        print('Cannot choose feature_column', feature_column)
+        print('Aborting.')
+        quit()
+    target = np.ravel(target)
 
-
+    
 
 # currently limited to csv: dependent variable is last column
 try:
