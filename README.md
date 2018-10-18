@@ -7,13 +7,13 @@ for structured data in a useful way for data science professionals.
 We focus on structured data (regression in the current version), due to its importance for business analytics.
 
 
-## Technical Description
+## Technical Description and Basic Usage
 The main script (autarchy) in the autarchy directory performs a quick hyperparmeter tuning run.  It is built on [TPOT](http://epistasislab.github.io/tpot/).  
 
 ```
-python autarchy -quick_stop
+python autarchy -file_name file_name -quick_stop quick_stop -trainings trainings
 ```
-or simply
+
 ```
 python autarchy
 ```
