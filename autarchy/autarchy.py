@@ -85,15 +85,26 @@ else:
         quit()
     target = np.ravel(target)
 
-x_train, x_test, y_train, y_test = train_test_split(
-    data, target, train_size=split_param['train_size'],
-    test_size=split_param['test_size'], random_state=seed['split_seed']
-    )
 
-x_train, x_val, y_train, y_val = train_test_split(
-    x_train, y_train, train_size=13./14.,
-    test_size=1./14., random_state=seed['split_seed']
-    )
+train_size = 1. - test_size
+(
+x_train, x_test,
+y_train, y_test
+) = train_test_split(
+                    data,  target, train_size=train_size,
+                    test_size, random_state=seed_value
+                    )
+
+val_size = 0.1/train_size
+train_size -= 1. - val_size
+
+(
+x_train, x_val,
+y_train, y_val
+) = train_test_split(
+                    x_train, y_train, train_size=train_size,
+                    test_size=val_size, random_state=seed_value
+                    )
 
 # currently limited to csv: dependent variable is last column
 try:
