@@ -10,6 +10,7 @@ from sklearn.model_selection import train_test_split
 import sys
 
 LOWER_RMSE_THRESHOLD, UPPER_RMSE_THRESHOLD = 0.1, 0.4
+DEFAULT_POPULATION = 5
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--file_name', '-file_name')
@@ -128,27 +129,18 @@ if quick_stop != 'NONE':
     rmse = np.sqrt(np.mean((y_predict - y_val)**2))
     mean_abs = np.mean(np.abs(y_val))
     rmse_scaled = rmse / mean_abs
-    if rmse_scaled < LOWER_RMSE_THRESHOLD
+    stop_lower = (rmse_scaled < LOWER_RMSE_THRESHOLD)
+    stop_upper = (rmse_scaled < UPPER_RMSE_THRESHOLD)
+    if stop_lower or (stop_upper and quick_stop == 'AGRESSIVE'):
+        print('Quick Stop Criterion Realized.  Stopping after 1 training.') # log
+        tpot.export('output.py')
+        quit()
 
+run_param['population_size'] = DEFAULT_POPULATION
+generations = int(np.ceil(trainings / DEFAULT_POPULATION))
+run_param['generations'] = generations
+tpot = TPOTRegressor(**run_param)
+tpot.fit(x_train, y_train)
+print('Finished running AutoML.') # log
+tpot.export('output.py')
 
-
-
-# Train models using benchmark points to get scores for these models
-
-score = lambda x: None
-
-benchmarks_with_scores = {benchmark: score(benchmark) for benchmark in benchmarks}
-
-# Merge benchmark hyperparameter points into TPOT regressor object
-
-merge_models_into_tpot = lambda x, y: None
-
-merge_models_into_tpot(tpot, benchmarks_with_scores)
-
-# Resume tpot running with new model set
-
-continue_tpot = lambda x, generations = run_param['generations']: None
-
-continue_tpot(tpot, generations = run_param['generations'])
-
-# TPOT will print out best model to stdout
