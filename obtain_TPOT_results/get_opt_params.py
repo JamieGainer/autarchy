@@ -8,7 +8,7 @@ The optional arguments are
 -generations
 -population
 -seed
--feature_column
+-target_column
 -model_space
 -preprocessor
 -verbosity
@@ -33,7 +33,7 @@ parser.add_argument('--file_name', '-file_name')
 parser.add_argument('--generations', '-generations')
 parser.add_argument('--population', '-population')
 parser.add_argument('--seed', '-seed')
-parser.add_argument('--feature_column', '-feature_column')
+parser.add_argument('--target_column', '-target_column')
 parser.add_argument('--model_space', '-model_space')
 parser.add_argument('--preprocessor', '-preprocessor')
 parser.add_argument('--verbosity', '-verbosity')
@@ -57,7 +57,7 @@ else:
                           )
 
 # default values
-seed_value, feature_column = 42, -1
+seed_value, target_column = 42, -1
 generations, population = 5, 50
 verbosity = 0
 model_space = 'regression'
@@ -65,8 +65,8 @@ model_space = 'regression'
 if args.seed:
     seed_value = int(args.seed)
 
-if args.feature_column:
-    feature_column = int(args.feature_column)
+if args.target_column:
+    target_column = int(args.target_column)
 
 if args.generations:
     generations = int(args.generations)
@@ -101,20 +101,20 @@ if input_file_name == 'boston':
     pass
 else:
     try:
-        if feature_column in [-1, data_shape[1] - 1]:
+        if target_column in [-1, data_shape[1] - 1]:
             data, target = file_data[:, :-1], file_data[:, -1:]
-        elif feature_column in [0, -data_shape[1]]:
+        elif target_column in [0, -data_shape[1]]:
             data, target = file_data[:, 1:], file_data[:, :1]
         else:
-            target = file_data[:, feature_column]
+            target = file_data[:, target_column]
             data = np.hstack((
-                             file_data[:, :feature_column],
-                             file_data[:, feature_column + 1:]
+                             file_data[:, :target_column],
+                             file_data[:, target_column + 1:]
                             ))
     except:
         raise ValueError(
-                        'Cannot choose feature_column ' + 
-                        str(feature_column)
+                        'Cannot choose target_column ' + 
+                        str(target_column)
                         )
     target = np.ravel(target)
 
