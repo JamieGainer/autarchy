@@ -18,7 +18,7 @@ parser.add_argument('--trainings', '-trainings')
 parser.add_argument('--quick_stop', '-quick_stop')
 parser.add_argument('--seed', '-seed')
 parser.add_argument('--test_size', '-test_size')
-parser.add_argument('--feature_column', '-feature_column')
+parser.add_argument('--target_column', '-target_column')
 parser.add_argument('--verbosity', '-verbosity')
 args = parser.parse_args()
 
@@ -45,7 +45,7 @@ trainings = 20
 quick_stop = 'NONE'
 seed_value = 42
 test_size = 0.25
-feature_column = -1
+target_column = -1
 verbosity = 0
 
 if args.trainings:
@@ -63,8 +63,8 @@ if args.seed:
 if args.test_size:
     test_size = float(args.test_size)
 
-if args.feature_column:
-    feature_column = int(args.feature_column)
+if args.target_column:
+    target_column = int(args.target_column)
 
 if args.verbosity:
     verbosity = int(args.verbosity)
@@ -74,20 +74,20 @@ if input_file_name == 'boston':
     pass
 else:
     try:
-        if feature_column in [-1, data_shape[1] - 1]:
+        if target_column in [-1, data_shape[1] - 1]:
             data, target = file_data[:, :-1], file_data[:, -1:]
-        elif feature_column in [0, -data_shape[1]]:
+        elif target_column in [0, -data_shape[1]]:
             data, target = file_data[:, 1:], file_data[:, :1]
         else:
-            target = file_data[:, feature_column]
+            target = file_data[:, target_column]
             data = np.hstack((
-                             file_data[:, :feature_column],
-                             file_data[:, feature_column + 1:]
+                             file_data[:, :target_column],
+                             file_data[:, target_column + 1:]
                             ))
     except:
         raise ValueError(
-                        'Cannot choose feature_column ' + 
-                        str(feature_column)
+                        'Cannot choose target_column ' + 
+                        str(target_column)
                         )
 
     target = np.ravel(target)
