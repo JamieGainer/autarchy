@@ -50,11 +50,11 @@ else:
         file_data = np.genfromtxt(input_file_name, delimiter=',', skip_header=1)
         data_shape = file_data.shape
     except:
-        print(
-            "Failed to read data file", input_file_name,
-            "as CSV.  Aborting."
-            )
-        quit()
+        raise RuntimeError(
+                          "Failed to read data file '" + 
+                          input_file_name +
+                          "' as CSV.  Aborting."
+                          )
 
 # default values
 seed_value, feature_column = 42, -1
@@ -80,8 +80,7 @@ if args.verbosity:
 if args.model_space:
     model_space = args.model_space
     if model_space not in model_list:
-        print('Could not read model_space.  Aborting')
-        quit()
+        raise ValueError('Could not read model_space.  Aborting.')
 
 if model_space.upper() == 'DNN':
     config_dict = config.NN_config_dictionary(*data_shape)
@@ -91,11 +90,10 @@ else:
 preprocessor = args.preprocessor
 if preprocessor:
     if preprocessor not in preprocessor_list:
-        print(
-             'Cannot choose preprocessing method', preprocessor,
-             '\b.  Aborting.'
-             )
-        quit()
+        raise ValueError(
+                        "Cannot choose preprocessing method '" +  
+                        str(preprocessor) + '\b.  Aborting.'
+                        )
     config.restrict_preprocessor(preprocessor, config_dict)
 
 # choosing target and other columns in general
@@ -114,9 +112,10 @@ else:
                              file_data[:, feature_column + 1:]
                             ))
     except:
-        print('Cannot choose feature_column', feature_column)
-        print('Aborting.')
-        quit()
+        raise ValueError(
+                        'Cannot choose feature_column ' + 
+                        str(feature_column)
+                        )
     target = np.ravel(target)
 
 print('Parameters:')
