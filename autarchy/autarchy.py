@@ -99,7 +99,7 @@ x_train, x_test,
 y_train, y_test
 ) = train_test_split(
                     data,  target, train_size=train_size,
-                    test_size, random_state=seed_value
+                    test_size=test_size, random_state=seed_value
                     )
 
 val_size = 0.1/train_size
