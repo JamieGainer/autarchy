@@ -106,24 +106,16 @@ y_train, y_val
                     test_size=val_size, random_state=seed_value
                     )
 
-# currently limited to csv: dependent variable is last column
-try:
-	data = np.genfromtxt(input_file_name, delimiter=',')
-except:
-	print("Failed to read data file", input_file_name)
-	quit()
-
-# run dictionary with default parameters that (later) can be overwritten with user input
+population = 1, generations = 0
 run_param = {
-	'train_size': 0.75,
-	'test_size': 0.25,
-	'random_state_for_split': 42,
-	'generations': 5,
-	'population_size': 20,
-	'verbosity': 2,
-	'random_state_tpot': 42,
-	'min_random_initial_points': 5
-}
+            'population_size': population,
+            'verbosity': verbosity,
+            'generations': generations,
+            'random_state': seed_value
+            }
+
+# Initialize regressor that runs once
+tpot = TPOTRegressor(**run_param)
 
 # divide into X_train, X_test, y_train, y_test
 
