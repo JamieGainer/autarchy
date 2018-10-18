@@ -9,6 +9,8 @@ from sklearn.datasets import load_boston
 from sklearn.model_selection import train_test_split
 import sys
 
+LOWER_RMSE_THRESHOLD, UPPER_RMSE_THRESHOLD = 0.1, 0.4
+
 parser = argparse.ArgumentParser()
 parser.add_argument('--file_name', '-file_name')
 parser.add_argument('--trainings', '-trainings')
@@ -51,6 +53,10 @@ if args.trainings:
 
 if args.quick_stop:
     quick_stop = args.quick_stop.upper()
+
+if quick_stop not in ['NONE', 'AGRESSIVE', 'MODERATE']:
+    print('Unrecognized option for quick_stop') #log
+    quit()
 
 if args.seed:
     seed_value = int(args.seed)
@@ -114,18 +120,18 @@ run_param = {
             'random_state': seed_value
             }
 
-# Initialize regressor that runs once
-tpot = TPOTRegressor(**run_param)
+# If quick_stop options are selected, do 1 model training
+if quick_stop != 'NONE':
+    tpot = TPOTRegressor(**run_param)
+    tpot.fit(x_train, y_train)
+    y_predict = tpot.predict(x_val)
+    rmse = np.sqrt(np.mean((y_predict - y_val)**2))
+    mean_abs = np.mean(np.abs(y_val))
+    rmse_scaled = rmse / mean_abs
+    if rmse_scaled < LOWER_RMSE_THRESHOLD
 
 
 
-# Start tpot.  We will replace some of the initial hyperparmeter points with benchmark points
-
-population_size = max(run_param['population_size'], len(benchmarks) + run_param['min_random_initial_points'])
-tpot = TPOTRegressor(generations=0, population_size=population_size, 
-					 verbosity=run_param['verbosity'], random_state = run_param['random_state_tpot'])
-
-tpot.fit(X_train, y_train)
 
 # Train models using benchmark points to get scores for these models
 
