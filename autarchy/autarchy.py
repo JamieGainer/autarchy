@@ -34,11 +34,11 @@ else:
         file_data = np.genfromtxt(input_file_name, delimiter=',', skip_header=1)
         data_shape = file_data.shape
     except:
-        print(
-            "Failed to read data file", input_file_name,
-            "as CSV.  Aborting."
-            ) # log
-        quit()
+        raise RuntimeError(
+                          "Failed to read data file '" + 
+                          input_file_name +
+                          "' as CSV.  Aborting."
+                          )
 
 # default values
 trainings = 20
@@ -55,8 +55,7 @@ if args.quick_stop:
     quick_stop = args.quick_stop.upper()
 
 if quick_stop not in ['NONE', 'AGRESSIVE', 'MODERATE']:
-    print('Unrecognized option for quick_stop') #log
-    quit()
+    raise ValueError('Unrecognized option for quick_stop')
 
 if args.seed:
     seed_value = int(args.seed)
@@ -86,9 +85,11 @@ else:
                              file_data[:, feature_column + 1:]
                             ))
     except:
-        print('Cannot choose feature_column', feature_column)
-        print('Aborting.')
-        quit()
+        raise ValueError(
+                        'Cannot choose feature_column ' + 
+                        str(feature_column)
+                        )
+
     target = np.ravel(target)
 
 train_size = 1. - test_size
@@ -121,6 +122,7 @@ run_param = {
 
 # If quick_stop options are selected, do 1 model training
 if quick_stop != 'NONE':
+    run_AutoML = False
     tpot = TPOTRegressor(**run_param)
     tpot.fit(x_train, y_train)
     y_predict = tpot.predict(x_val)
@@ -130,16 +132,17 @@ if quick_stop != 'NONE':
     stop_lower = (rmse_scaled < LOWER_RMSE_THRESHOLD)
     stop_upper = (rmse_scaled < UPPER_RMSE_THRESHOLD)
     if stop_lower or (stop_upper and quick_stop == 'AGRESSIVE'):
-        print('Quick Stop Criterion Realized.  Stopping after 1 training.') # log
+        print('Quick Stop Criterion Realized.  Stopping after 1 training.')
         tpot.export('output.py')
-        print('Optimal pipeline in output.py.') # log
-        quit()
+        print('Optimal pipeline in output.py.')
+        run_AutoML = True
 
-run_param['population_size'] = DEFAULT_POPULATION
-generations = int(np.ceil(trainings / DEFAULT_POPULATION))
-run_param['generations'] = generations
-tpot = TPOTRegressor(**run_param)
-tpot.fit(x_train, y_train)
-print('Finished running AutoML.') # log
-tpot.export('output.py')
-print('Optimal pipeline in output.py.') # log
+if quick_stop == 'NONE' or run_AutoML:
+    run_param['population_size'] = DEFAULT_POPULATION
+    generations = int(np.ceil(trainings / DEFAULT_POPULATION))
+    run_param['generations'] = generations
+    tpot = TPOTRegressor(**run_param)
+    tpot.fit(x_train, y_train)
+    print('Finished running AutoML.')
+    tpot.export('output.py')
+    print('Optimal pipeline in output.py.')
