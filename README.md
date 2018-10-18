@@ -6,6 +6,8 @@ The goal of this package is to provide [AutoML](https://en.wikipedia.org/wiki/Au
 for structured data in a useful way for data science professionals.
 We focus on structured data (regression in the current version), due to its importance for business analytics.
 
+Slides discussing this project are available [here] (https://bit.ly/2O6biok).
+
 
 ## Technical Description and Basic Usage
 
