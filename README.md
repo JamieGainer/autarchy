@@ -8,24 +8,14 @@ We focus on structured data (regression in the current version), due to its impo
 
 
 ## Technical Description and Basic Usage
+
 The main script (autarchy) in the autarchy directory performs a quick hyperparmeter tuning run.  It is built on [TPOT](http://epistasislab.github.io/tpot/).  
 
+The main command is 
 ```
-python autarchy -file_name file_name -quick_stop quick_stop -trainings trainings
+python autarchy -file_name file_name -feature_column feature_column -quick_stop quick_stop -trainings trainings
 ```
-
-```
-python autarchy
-```
-runs TPOT for up to about 100 model trainings, but tries to stop quicker, based on data from hyperparameter tuning. 
-```
-python autarchy -full
-```
-Runs TPOT with 100 model trainings.  
-```
-python autarchy -random
-```
-Runs TPOT for a single model training for a randomly selected hyperparameter point.
+If -file_name is omitted, the Boston Housing Dataset built into scikit-learn will be used instead of a csv file.  If file_name is specified, it should be the pathname of a CSV file.  The column
 
 
 ## Repo Format:
@@ -33,3 +23,4 @@ Runs TPOT for a single model training for a randomly selected hyperparameter poi
 - **obtain_TPOT_results** : Code for running TPOT to obtain data about how well AutoML performs.
 - **datasets** : Code to download datasets/ info about benchmark datasets.
 - **TPOT_results_archive** : Some data about running TPOT on the datasets.  Organized by AutoML run, then by dataset number.
+- **tests**: Tests.
