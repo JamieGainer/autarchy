@@ -1,4 +1,4 @@
-# autarchy: User-Friendly AutoML with a Model Hierarchy
+# autarchy: Fast AutoML for Structured Data
 
 ## Use Case
 
