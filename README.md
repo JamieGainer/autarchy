@@ -13,7 +13,7 @@ The main script (autarchy) in the autarchy directory performs a quick hyperparme
 
 The main command is 
 ```
-python autarchy -file_name file_name -feature_column feature_column -quick_stop quick_stop -trainings trainings
+python autarchy -file_name file_name -target_column target_column -quick_stop quick_stop -trainings trainings
 ```
 If -file_name is omitted, the Boston Housing Dataset built into scikit-learn will be used instead of a csv file.  If file_name is specified, it should be the pathname of a CSV file.  The column
 
