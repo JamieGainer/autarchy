@@ -132,6 +132,7 @@ if quick_stop != 'NONE':
     if stop_lower or (stop_upper and quick_stop == 'AGRESSIVE'):
         print('Quick Stop Criterion Realized.  Stopping after 1 training.') # log
         tpot.export('output.py')
+        print('Optimal pipeline in output.py.') # log
         quit()
 
 run_param['population_size'] = DEFAULT_POPULATION
@@ -141,4 +142,4 @@ tpot = TPOTRegressor(**run_param)
 tpot.fit(x_train, y_train)
 print('Finished running AutoML.') # log
 tpot.export('output.py')
-
+print('Optimal pipeline in output.py.') # log
