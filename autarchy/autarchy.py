@@ -40,11 +40,10 @@ else:
             ) # log
         quit()
 
-
 # default values
 trainings = 20
 quick_stop = 'NONE'
-seed_value = 42,
+seed_value = 42
 test_size = 0.25
 feature_column = -1
 verbosity = 0
@@ -92,18 +91,17 @@ else:
         quit()
     target = np.ravel(target)
 
-
 train_size = 1. - test_size
 (
 x_train, x_test,
 y_train, y_test
 ) = train_test_split(
-                    data,  target, train_size=train_size,
+                    data, target, train_size=train_size,
                     test_size=test_size, random_state=seed_value
                     )
 
 val_size = 0.1/train_size
-train_size -= 1. - val_size
+train_size = 1. - val_size
 
 (
 x_train, x_val,
@@ -113,7 +111,7 @@ y_train, y_val
                     test_size=val_size, random_state=seed_value
                     )
 
-population = 1, generations = 0
+population, generations = 1, 0
 run_param = {
             'population_size': population,
             'verbosity': verbosity,
