@@ -44,7 +44,7 @@ else:
                           )
 
 # default values
-trainings = 20
+trainings = 100
 quick_stop = 'NONE'
 seed_value = 42
 test_size = 0.25
