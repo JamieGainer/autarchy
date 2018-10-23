@@ -22,6 +22,7 @@ parser.add_argument('--seed', '-seed')
 parser.add_argument('--test_size', '-test_size')
 parser.add_argument('--target_column', '-target_column')
 parser.add_argument('--verbosity', '-verbosity')
+parser.add_argument('--model', '-model')
 args = parser.parse_args()
 
 if args.file_name in [None, 'boson']:
@@ -77,6 +78,14 @@ if args.target_column:
 if args.verbosity:
     verbosity = int(args.verbosity)
 
+if args.model:
+    if args.model.upper() in ['DNN', 'LINEAR']:
+        model = args.model.upper()
+    else:
+        raise ValueError('Unrecognized option for model')
+else:
+    model = None
+
 # choosing target and other columns in general
 
 if input_file_name == 'boston':
@@ -128,6 +137,13 @@ run_param = {
             'generations': generations,
             'random_state': seed_value
             }
+
+if model == 'DNN':
+    config_dict = config.NN_config_dictionary(*data.shape)
+    run_param['config_dict'] = config_dict
+elif model == 'LINEAR':
+    config_dict = config.model_config_dict('linear')
+    run_param['config_dict'] = config_dict
 
 # If quick_stop options are selected, do 1 model training
 if quick_stop != 'NONE':
