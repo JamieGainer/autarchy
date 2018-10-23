@@ -25,7 +25,7 @@ parser.add_argument('--verbosity', '-verbosity')
 parser.add_argument('--model', '-model')
 args = parser.parse_args()
 
-if args.file_name in [None, 'boson']:
+if args.file_name in [None, 'boston']:
     print('Using built-in Boston Housing Data.')
     print('Ignoring potential -target_column argument.')
     input_file_name = 'boston'
