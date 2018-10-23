@@ -1,4 +1,4 @@
-""" Main .py for running autarchy """
+""" Main .py for running autoML_plus """
 from __future__ import print_function
 
 import argparse
@@ -23,7 +23,8 @@ parser.add_argument('--verbosity', '-verbosity')
 args = parser.parse_args()
 
 if args.file_name in [None, 'boson']:
-    print('Using built-in Boston Housing Data') # log
+    print('Using built-in Boston Housing Data.')
+    print('Ignoring potential -target_column argument.')
     input_file_name = 'boston'
     housing = load_boston()
     data, target = housing.data, housing.target
@@ -70,6 +71,7 @@ if args.verbosity:
     verbosity = int(args.verbosity)
 
 # choosing target and other columns in general
+
 if input_file_name == 'boston':
     pass
 else:
@@ -122,7 +124,7 @@ run_param = {
 
 # If quick_stop options are selected, do 1 model training
 if quick_stop != 'NONE':
-    run_AutoML = False
+    run_AutoML = True
     tpot = TPOTRegressor(**run_param)
     tpot.fit(x_train, y_train)
     y_predict = tpot.predict(x_val)
@@ -135,9 +137,10 @@ if quick_stop != 'NONE':
         print('Quick Stop Criterion Realized.  Stopping after 1 training.')
         tpot.export('output.py')
         print('Optimal pipeline in output.py.')
-        run_AutoML = True
+        run_AutoML = False
 
 if quick_stop == 'NONE' or run_AutoML:
+    print('Running AutoML')
     run_param['population_size'] = DEFAULT_POPULATION
     generations = int(np.ceil(trainings / DEFAULT_POPULATION))
     run_param['generations'] = generations
