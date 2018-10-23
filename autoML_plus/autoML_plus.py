@@ -158,8 +158,6 @@ if quick_stop != 'NONE':
     stop_upper = (rmse_scaled < UPPER_RMSE_THRESHOLD)
     if stop_lower or (stop_upper and quick_stop == 'AGRESSIVE'):
         print('Quick Stop Criterion Realized.  Stopping after 1 training.')
-        tpot.export('output.py')
-        print('Optimal pipeline in output.py.')
         run_AutoML = False
 
 if quick_stop == 'NONE' or run_AutoML:
@@ -169,6 +167,15 @@ if quick_stop == 'NONE' or run_AutoML:
     run_param['generations'] = generations
     tpot = TPOTRegressor(**run_param)
     tpot.fit(x_train, y_train)
-    print('Finished running AutoML.')
-    tpot.export('output.py')
-    print('Optimal pipeline in output.py.')
+    print('Finished running AutoML.\n')
+
+y_predict = tpot.predict(x_test)
+rmse = np.sqrt(np.mean((y_predict - y_test)**2))
+mean_abs = np.mean(np.abs(y_test))
+rmse_scaled = rmse / mean_abs
+print('RMSE on test data =', rmse)
+print('Scaled RMSE on test data =', rmse_scaled, '\n')
+tpot.export('output.py')
+print('Optimal pipeline in output.py.')
+
+
