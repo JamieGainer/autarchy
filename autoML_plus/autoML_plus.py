@@ -53,6 +53,11 @@ verbosity = 0
 
 if args.trainings:
     trainings = int(args.trainings)
+    if trainings not in [20, 100]:
+        print(
+             'Running with unvalidated option of', trainings, 
+             'model trainings.'
+             )
 
 if args.quick_stop:
     quick_stop = args.quick_stop.upper()
