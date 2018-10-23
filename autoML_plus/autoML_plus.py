@@ -9,6 +9,8 @@ from sklearn.datasets import load_boston
 from sklearn.model_selection import train_test_split
 import sys
 
+import config
+
 LOWER_RMSE_THRESHOLD, UPPER_RMSE_THRESHOLD = 0.1, 0.4
 DEFAULT_POPULATION = 5
 
