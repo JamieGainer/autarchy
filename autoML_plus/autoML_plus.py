@@ -1,4 +1,4 @@
-""" Main .py for running autarchy """
+""" Main .py for running autoML_plus """
 from __future__ import print_function
 
 import argparse
@@ -8,6 +8,8 @@ from tpot import TPOTRegressor
 from sklearn.datasets import load_boston
 from sklearn.model_selection import train_test_split
 import sys
+
+import config
 
 LOWER_RMSE_THRESHOLD, UPPER_RMSE_THRESHOLD = 0.1, 0.4
 DEFAULT_POPULATION = 5
@@ -20,10 +22,12 @@ parser.add_argument('--seed', '-seed')
 parser.add_argument('--test_size', '-test_size')
 parser.add_argument('--target_column', '-target_column')
 parser.add_argument('--verbosity', '-verbosity')
+parser.add_argument('--model', '-model')
 args = parser.parse_args()
 
-if args.file_name in [None, 'boson']:
-    print('Using built-in Boston Housing Data') # log
+if args.file_name in [None, 'boston']:
+    print('Using built-in Boston Housing Data.')
+    print('Ignoring potential -target_column argument.')
     input_file_name = 'boston'
     housing = load_boston()
     data, target = housing.data, housing.target
@@ -41,7 +45,7 @@ else:
                           )
 
 # default values
-trainings = 20
+trainings = 100
 quick_stop = 'NONE'
 seed_value = 42
 test_size = 0.25
@@ -50,6 +54,11 @@ verbosity = 0
 
 if args.trainings:
     trainings = int(args.trainings)
+    if trainings not in [20, 100]:
+        print(
+             'Running with unvalidated option of', trainings, 
+             'model trainings.'
+             )
 
 if args.quick_stop:
     quick_stop = args.quick_stop.upper()
@@ -69,7 +78,16 @@ if args.target_column:
 if args.verbosity:
     verbosity = int(args.verbosity)
 
+if args.model:
+    if args.model.upper() in ['DNN', 'LINEAR']:
+        model = args.model.upper()
+    else:
+        raise ValueError('Unrecognized option for model')
+else:
+    model = None
+
 # choosing target and other columns in general
+
 if input_file_name == 'boston':
     pass
 else:
@@ -120,9 +138,16 @@ run_param = {
             'random_state': seed_value
             }
 
+if model == 'DNN':
+    config_dict = config.NN_config_dictionary(*data.shape)
+    run_param['config_dict'] = config_dict
+elif model == 'LINEAR':
+    config_dict = config.model_config_dict('linear')
+    run_param['config_dict'] = config_dict
+
 # If quick_stop options are selected, do 1 model training
 if quick_stop != 'NONE':
-    run_AutoML = False
+    run_AutoML = True
     tpot = TPOTRegressor(**run_param)
     tpot.fit(x_train, y_train)
     y_predict = tpot.predict(x_val)
@@ -133,16 +158,24 @@ if quick_stop != 'NONE':
     stop_upper = (rmse_scaled < UPPER_RMSE_THRESHOLD)
     if stop_lower or (stop_upper and quick_stop == 'AGRESSIVE'):
         print('Quick Stop Criterion Realized.  Stopping after 1 training.')
-        tpot.export('output.py')
-        print('Optimal pipeline in output.py.')
-        run_AutoML = True
+        run_AutoML = False
 
 if quick_stop == 'NONE' or run_AutoML:
+    print('Running AutoML')
     run_param['population_size'] = DEFAULT_POPULATION
     generations = int(np.ceil(trainings / DEFAULT_POPULATION))
     run_param['generations'] = generations
     tpot = TPOTRegressor(**run_param)
     tpot.fit(x_train, y_train)
-    print('Finished running AutoML.')
-    tpot.export('output.py')
-    print('Optimal pipeline in output.py.')
+    print('Finished running AutoML.\n')
+
+y_predict = tpot.predict(x_test)
+rmse = np.sqrt(np.mean((y_predict - y_test)**2))
+mean_abs = np.mean(np.abs(y_test))
+rmse_scaled = rmse / mean_abs
+print('RMSE on test data =', rmse)
+print('Scaled RMSE on test data =', rmse_scaled, '\n')
+tpot.export('output.py')
+print('Optimal pipeline in output.py.')
+
+

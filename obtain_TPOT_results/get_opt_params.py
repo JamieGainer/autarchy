@@ -17,13 +17,19 @@ The optional arguments are
 
 import argparse
 import numpy as np
+import os
 import pickle
 from tpot import TPOTRegressor
 from sklearn.datasets import load_boston
 from sklearn.model_selection import train_test_split
 import sys
 import time
-import config
+
+sys.path.append('../')
+
+from autoML_plus import config
+
+
 
 model_list = config.implemented_model_list
 preprocessor_list = config.implemented_preprocessor_list
