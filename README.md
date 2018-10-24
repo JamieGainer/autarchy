@@ -39,13 +39,21 @@ If file_name is specified, it should be the pathname of a CSV file.  If it is om
 The default value is 100.  Any integer value can be used, though the number of trainings implemented will be rounded up to the nearest 5.
 
 **quick_stop**
-The default value is "NONE".  To 
+The default value is "NONE".  Other options are 
+"AGRESSIVE": If r = RMSE / mean(abs(test_values)) < 0.4 after training with a random hyperparameter point, stop execution.
+and 
+"MODERATE": If r < 0.1 after training with a random hyperparameter point, stop execution.
 
 **seed**
 The default value is 42.  Any integer value may be specified.
 
 **test_size**
-The default value is 0.25.  
+
+The default value is 0.25.  Any floating point value > 0 and < 1 may be chosen. An exception will be raised and execution will cease if test_size + validation_size >= 1.
+
+**validation_size**
+
+The default value is 0.1. Any floating point value > 0 and < 1 may be chosen. An exception will be raised and execution will cease if test_size + validation_size >= 1.
 
 **target_column**
 
@@ -53,11 +61,11 @@ The default value is -1 (the right most column), but other integer (positive or 
 
 **verbosity**
 
-Default value is 0 (quite).  This sets the extent to which TPOT sends progress messages to stdout.  Options are 1, 2, and 3.
+Default value is 0 (quite).  This sets the extent to which TPOT sends progress messages to stdout.  Options are 0, 1, 2, and 3.
 
 **model**
 
-Default is the full set of regression models in TPOT ().
+Default is the full set of regression models in TPOT (RidgeCV, LassoLarsCV, ElasticNetCV, DecisionTreeRegressor, ExtraTreesRegressor, GradientBoostingRegressor, AdaBoostRegressor, RandomForestRegressor, KNeighborsRegressor, and LinearSVR).
 
 
 ## Repo Format:
