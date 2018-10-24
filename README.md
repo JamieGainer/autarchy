@@ -1,4 +1,4 @@
-# autarchy: Fast AutoML for Structured Data
+# autoML_plus: Fast AutoML for Structured Data
 
 ## Use Case
 
@@ -11,7 +11,11 @@ Slides discussing this project are available [here](https://bit.ly/2O6biok).  I 
 
 ## Technical Description and Basic Usage
 
-The main script (autarchy) in the autarchy directory performs a quick hyperparmeter tuning run.  It is built on [TPOT](http://epistasislab.github.io/tpot/).  
+The main script (autoML_plus) in the autoML_plus directory performs a hyperparmeter tuning run.  It is built on [TPOT](http://epistasislab.github.io/tpot/) but has the following additional features
+
+1. It recommends running for fewer model trainigs (20 or 100)
+2. It has a quick stop option for when RMSE is already small after one training
+3. It has a deep neural network option, which is useful on non-linear data
 
 The main command is 
 ```
