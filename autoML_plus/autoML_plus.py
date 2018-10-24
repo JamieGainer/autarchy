@@ -122,7 +122,7 @@ else:
 
     target = np.ravel(target)
 
-train_size = 1. - (test_size + validation_size)
+train_size = 1. - test_size
 (
 x_train, x_test,
 y_train, y_test
