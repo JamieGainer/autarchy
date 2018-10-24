@@ -19,13 +19,39 @@ The main script (autoML_plus) in the autoML_plus directory performs a hyperparme
 
 The main command is 
 ```
-python autarchy -file_name file_name -target_column target_column -quick_stop quick_stop -trainings trainings
+python autoML_plus.py [ options ]
 ```
+
+The options are file_name, trainings, quick_stop, seed, test_size, target_column, verbosity, and model.  Each option can be specified using
+```
+-option value
+```
+or
+```
+--option value
+```
+after "python autoML_plus.py" on the command line.
+
+**file_name**
 If -file_name is omitted, the Boston Housing Dataset built into scikit-learn will be used instead of a csv file.  If file_name is specified, it should be the pathname of a CSV file.  The column
+
+**trainings**
+
+**quick_stop**
+
+**seed**
+
+**test_size**
+
+**target_column**
+
+**verbosity**
+
+**model**
 
 
 ## Repo Format:
-- **autarchy** : Package directory for autarchy.
+- **autoML_plus** : Package directory for autarchy.
 - **obtain_TPOT_results** : Code for running TPOT to obtain data about how well AutoML performs.
 - **datasets** : Code to download datasets/ info about benchmark datasets.
 - **TPOT_results_archive** : Some data about running TPOT on the datasets.  Organized by AutoML run, then by dataset number.
