@@ -72,5 +72,4 @@ Default is the full set of regression models in TPOT (RidgeCV, LassoLarsCV, Elas
 - **autoML_plus** : Package directory for autarchy.
 - **obtain_TPOT_results** : Code for running TPOT to obtain data about how well AutoML performs.
 - **datasets** : Code to download datasets/ info about benchmark datasets.
-- **TPOT_results_archive** : Some data about running TPOT on the datasets.  Organized by AutoML run, then by dataset number.
 - **tests**: Tests.
