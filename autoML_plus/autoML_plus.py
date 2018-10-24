@@ -20,6 +20,7 @@ parser.add_argument('--trainings', '-trainings')
 parser.add_argument('--quick_stop', '-quick_stop')
 parser.add_argument('--seed', '-seed')
 parser.add_argument('--test_size', '-test_size')
+parser.add_argument('--validation_size', '-validation_size')
 parser.add_argument('--target_column', '-target_column')
 parser.add_argument('--verbosity', '-verbosity')
 parser.add_argument('--model', '-model')
@@ -49,6 +50,7 @@ trainings = 100
 quick_stop = 'NONE'
 seed_value = 42
 test_size = 0.25
+validation_size = 0.1
 target_column = -1
 verbosity = 0
 
@@ -71,6 +73,16 @@ if args.seed:
 
 if args.test_size:
     test_size = float(args.test_size)
+    if test_size < 0 or test_size >= 1.:
+        raise ValueError('test_size must be > 0 and < 1.')
+
+if args.validation_size:
+    validation_size = float(args.validation_size)
+    if validation_size < 0 or validation_size >= 1.:
+        raise ValueError('validation_size must be > 0 and < 1.')
+
+if test_size + validation_size >= 1.:
+    raise ValueError('test_size + validation_size must be < 1.')
 
 if args.target_column:
     target_column = int(args.target_column)
@@ -110,7 +122,7 @@ else:
 
     target = np.ravel(target)
 
-train_size = 1. - test_size
+train_size = 1. - (test_size + validation_size)
 (
 x_train, x_test,
 y_train, y_test
@@ -119,7 +131,7 @@ y_train, y_test
                     test_size=test_size, random_state=seed_value
                     )
 
-val_size = 0.1/train_size
+val_size = validation_size/train_size
 train_size = 1. - val_size
 
 (
