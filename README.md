@@ -30,24 +30,34 @@ or
 ```
 --option value
 ```
-after "python autoML_plus.py" on the command line.
+after "python autoML_plus.py" on the command line.  All options are optional.
 
 **file_name**
-If -file_name is omitted, the Boston Housing Dataset built into scikit-learn will be used instead of a csv file.  If file_name is specified, it should be the pathname of a CSV file.  The column
+If file_name is specified, it should be the pathname of a CSV file.  If it is omitted, the Boston Housing Dataset built into scikit-learn will be used instead of a csv file.
 
 **trainings**
+The default value is 100.  Any integer value can be used, though the number of trainings implemented will be rounded up to the nearest 5.
 
 **quick_stop**
+The default value is "NONE".  To 
 
 **seed**
+The default value is 42.  Any integer value may be specified.
 
 **test_size**
+The default value is 0.25.  
 
 **target_column**
 
+The default value is -1 (the right most column), but other integer (positive or negative) values can be specified following the python indexing convention.
+
 **verbosity**
 
+Default value is 0 (quite).  This sets the extent to which TPOT sends progress messages to stdout.  Options are 1, 2, and 3.
+
 **model**
+
+Default is the full set of regression models in TPOT ().
 
 
 ## Repo Format:
