@@ -4,7 +4,7 @@ with open("README.md", "r") as fh:
     long_description = fh.read()
 
 setuptools.setup(
-    name="autarchy",
+    name="autoML_plus",
     version="0.0.1",
     author="Jamie Gainer",
     author_email="james.samuel.gainer@gmail.com",
